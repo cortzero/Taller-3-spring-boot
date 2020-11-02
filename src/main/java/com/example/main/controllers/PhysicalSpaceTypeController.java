@@ -47,11 +47,11 @@ public class PhysicalSpaceTypeController {
 	@PostMapping("/physicalSpaceTypes/add")
 	public String savePhysicalSpaceType1(@Validated({FirstGroup.class, Default.class}) Physicalspacetype physicalspacetype,
 			BindingResult bindingResult, Model model, @RequestParam(value = "action", required = true) String action) {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			return "physicalSpaceTypes/add_phySpaType_1";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				model.addAttribute("institutions", instService.findAll());
 				return "physicalSpaceTypes/add_phySpaType_2";
 			}
@@ -63,12 +63,12 @@ public class PhysicalSpaceTypeController {
 	public String savePhysicalSpaceType2(@Validated({FirstGroup.class, Default.class}) Physicalspacetype physicalspacetype,
 			BindingResult bindingResult, Model model, @RequestParam(value = "action", required = true) String action)
 			throws NoSuchElementException, PhysicalSpaceTypeWithoutNameException, PhysicalSpaceTypeWithoutInstitutionException {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			model.addAttribute("institutions", instService.findAll());
 			return "physicalSpaceTypes/add_phySpaType_2";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				phySpTypeService.savePhysicalSpaceType(physicalspacetype);
 			}
 			return "redirect:/physicalSpaceTypes";

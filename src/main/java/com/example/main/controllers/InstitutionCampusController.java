@@ -47,11 +47,11 @@ public class InstitutionCampusController {
 	@PostMapping("/campus/add")
 	public String saveCampus1(@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult,
 			Model model, @RequestParam(value = "action", required = true) String action) {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {			
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {			
 			return "campus/add_campus_1";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				model.addAttribute("institutions", instService.findAll());
 				return "campus/add_campus_2";
 			}
@@ -63,12 +63,12 @@ public class InstitutionCampusController {
 	public String saveCampus2(@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult,
 			Model model, @RequestParam(value = "action", required = true) String action) 
 			throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			model.addAttribute("institutions", instService.findAll());
 			return "campus/add_campus_2";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				campusService.saveInstitutionCampus(institutioncampus);
 			}
 			return "redirect:/campus";

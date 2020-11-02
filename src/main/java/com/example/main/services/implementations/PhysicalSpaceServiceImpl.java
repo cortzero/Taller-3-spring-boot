@@ -74,4 +74,14 @@ public class PhysicalSpaceServiceImpl implements PhysicalSpaceService {
 		}
 	}
 
+	@Override
+	public void deletePhysicalSpace(Physicalspace physSp) {
+		repository.delete(physSp);
+	}
+
+	@Override
+	public Iterable<Physicalspace> findAll() {
+		return repository.findAll();
+	}
+
 }

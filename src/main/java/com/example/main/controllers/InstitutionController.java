@@ -43,11 +43,11 @@ public class InstitutionController {
 	@PostMapping("/institutions/add")
 	public String saveInst1(@Validated({FirstGroup.class, Default.class}) Institution institution, BindingResult bindingResult, Model model, 
 			@RequestParam(value = "action", required = true) String action) {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			return "institutions/add_inst_1";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				return "institutions/add_inst_2";
 			}
 			return "redirect:/institutions/";
@@ -58,11 +58,11 @@ public class InstitutionController {
 	public String saveInst2(@Validated({SecondGroup.class, Default.class}) Institution institution, BindingResult bindingResult, Model model, 
 			@RequestParam(value = "action", required = true) String action) 
 					throws URLWithoutProtocolException, InstitutionWithoutNameException {
-		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			return "institutions/add_inst_2";
 		}
 		else {
-			if(!action.equals("Cancelar")) {
+			if(!action.equals("Cancel")) {
 				instService.saveInstitution(institution);
 			}
 			return "redirect:/institutions/";

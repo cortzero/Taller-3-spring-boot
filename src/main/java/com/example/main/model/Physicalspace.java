@@ -1,11 +1,16 @@
 package com.example.main.model;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import com.example.main.validation.FirstGroup;
+import com.example.main.validation.SecondGroup;
+
 import java.math.BigDecimal;
 import java.util.List;
-
 
 /**
  * The persistent class for the PHYSICALSPACE database table.
@@ -23,12 +28,15 @@ public class Physicalspace implements Serializable {
 	private long physpcId;
 
 	@Column(name="PHYSPC_EXTID")
+	@NotBlank(message = "External id must not be empty", groups = FirstGroup.class)
+	@Pattern(regexp = "(?<!\\d)\\d{5}(?!\\d)", message = "External ID must have exactly 5 digits", groups = FirstGroup.class)
 	private String physpcExtid;
 
 	@Column(name="PHYSPC_NAME")
+	@NotBlank(message = "Physical space name must not be empty", groups = FirstGroup.class)
 	private String physpcName;
 
-	@Column(name="PHYSPC_OCCUPATION")
+	@Column(name="PHYSPC_OCCUPATION")	
 	private BigDecimal physpcOccupation;
 
 	//bi-directional many-to-one association to Communityinstance
@@ -42,11 +50,12 @@ public class Physicalspace implements Serializable {
 	//bi-directional many-to-one association to Institutioncampus
 	@ManyToOne
 	@JoinColumn(name="INSTCAM_INSTCAM_ID")
+	@NotNull(message = "The physical space must be asociated with an institution", groups = SecondGroup.class)
 	private Institutioncampus institutioncampus;
 
 	//bi-directional many-to-one association to Physicalspace
 	@ManyToOne
-	@JoinColumn(name="PHYSPC_PHYSPC_IDPARENT")
+	@JoinColumn(name="PHYSPC_PHYSPC_IDPARENT")	
 	private Physicalspace physicalspace;
 
 	//bi-directional many-to-one association to Physicalspace
@@ -56,6 +65,7 @@ public class Physicalspace implements Serializable {
 	//bi-directional many-to-one association to Physicalspacetype
 	@ManyToOne
 	@JoinColumn(name="PHYSPCTYPE_PHYSPCTYPE_ID")
+	@NotNull(message = "The physical space must be asociated with its type", groups = SecondGroup.class)
 	private Physicalspacetype physicalspacetype;
 
 	public Physicalspace() {

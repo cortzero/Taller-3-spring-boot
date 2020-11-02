@@ -20,21 +20,30 @@
 			<h2 class="mb-5">New physical space type</h2>
 			<div class="row">
 				<div class="col-md-6">
-					<form action="#" th:action="@{/physicalSpaceTypes/add1}" th:object="${physicalspacetype}"
+					<form action="#" th:action="@{/physicalSpaces/add1}" th:object="${physicalspace}"
 						method="post">
 						<div class="row">
-							<input type="hidden" th:field="*{physpctypeExtid}" id="physpctypeExtid"/>
-							<input type="hidden" th:field="*{physpctypeImpliescomm}" id="physpctypeImpliescomm"/>
-							<input type="hidden" th:field="*{physpctypeName}" id="physpctypeName"/>
+							<input type="hidden" th:field="*{physpcExtid}" id="physpcExtid"/>
+							<input type="hidden" th:field="*{physpcName}" id="physpcName"/>
 							<div class="form-group col-md-6">
-								<label for="institution" class="col-form-label">Institution</label>
-								<select th:field="*{institution}">
-									<option th:each="inst : ${institutions}" th:value="${inst.instId}"
-										class="form-control" th:text="${inst.instName}"
-										th:selected="${physicalspacetype.institution=inst}"></option>
+								<label for="institutioncampus" class="col-form-label">Campus</label>
+								<select th:field="*{institutioncampus}">
+									<option th:each="campus : ${institutioncampuses}" th:value="${campus.instcamId}"
+										class="form-control" th:text="${campus.instcamName}"
+										th:selected="${physicalspace.institutioncampus=campus}"></option>
 								</select>
-								<span th:if="${#fields.hasErrors('institution')}"
-									th:errors="*{institution}" class="text-danger"></span>
+								<span th:if="${#fields.hasErrors('institutioncampus')}"
+									th:errors="*{institutioncampus}" class="text-danger"></span>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="physicalspacetype" class="col-form-label">Type</label>
+								<select th:field="*{physicalspacetype}">
+									<option th:each="type : ${physicalspacetypes}" th:value="${type.physpctypeId}"
+										class="form-control" th:text="${type.physpctypeName}"
+										th:selected="${physicalspace.physicalspacetype=type}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('physicalspacetype')}"
+									th:errors="*{physicalspacetype}" class="text-danger"></span>
 							</div>
 						</div>
 						<div class="row">
