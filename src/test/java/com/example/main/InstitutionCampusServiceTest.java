@@ -77,7 +77,7 @@ public class InstitutionCampusServiceTest {
 			newCampus.setInstcamId(1);
 			newCampus.setInstcamName("Icesi pance");
 			newCampus.setInstcamOccupation(new BigDecimal(0));
-			newCampus.setInstitution(instService.getInstitution(1).get());
+			newCampus.setInstitution(instService.findById(1).get());
 			
 			Assertions.assertDoesNotThrow(() -> campusService.saveInstitutionCampus(newCampus));
 			Assertions.assertEquals(1, campusService.getNumberOfCampus());
@@ -93,7 +93,7 @@ public class InstitutionCampusServiceTest {
 			newCampus.setInstcamId(2);
 			newCampus.setInstcamName("");
 			newCampus.setInstcamOccupation(new BigDecimal(0));
-			newCampus.setInstitution(instService.getInstitution(3).get());
+			newCampus.setInstitution(instService.findById(3).get());
 			
 			Assertions.assertThrows(CampusWithoutNameException.class, () -> campusService.saveInstitutionCampus(newCampus));
 		}
@@ -108,7 +108,7 @@ public class InstitutionCampusServiceTest {
 			newCampus.setInstcamId(2);
 			newCampus.setInstcamName("Univalle norte");
 			newCampus.setInstcamOccupation(new BigDecimal(2));
-			newCampus.setInstitution(instService.getInstitution(2).get());
+			newCampus.setInstitution(instService.findById(2).get());
 			
 			Assertions.assertThrows(CampusWithNoZeroOccupationException.class, () -> campusService.saveInstitutionCampus(newCampus));
 		}
@@ -144,7 +144,7 @@ public class InstitutionCampusServiceTest {
 			newCampus.setInstcamId(1);
 			newCampus.setInstcamName("Icesi pance");
 			newCampus.setInstcamOccupation(new BigDecimal(0));
-			newCampus.setInstitution(instService.getInstitution(1).get());
+			newCampus.setInstitution(instService.findById(1).get());
 			
 			campusService.saveInstitutionCampus(newCampus);
 		}
@@ -158,7 +158,7 @@ public class InstitutionCampusServiceTest {
 			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
 			existingCampus.setInstcamName(newName);
 			existingCampus.setInstcamOccupation(new BigDecimal(0));
-			existingCampus.setInstitution(instService.getInstitution(3).get());
+			existingCampus.setInstitution(instService.findById(3).get());
 			
 			Assertions.assertDoesNotThrow(() -> campusService.editInstitutionCampus(existingCampus));
 			Assertions.assertEquals(newName, campusService.getInstitutionCampus(1).get().getInstcamName());
@@ -175,7 +175,7 @@ public class InstitutionCampusServiceTest {
 			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
 			existingCampus.setInstcamName(newName);
 			existingCampus.setInstcamOccupation(new BigDecimal(-2));
-			existingCampus.setInstitution(instService.getInstitution(2).get());
+			existingCampus.setInstitution(instService.findById(2).get());
 			
 			Assertions.assertThrows(CampusWithNoZeroOccupationException.class, () -> campusService.editInstitutionCampus(existingCampus));
 		}
@@ -207,7 +207,7 @@ public class InstitutionCampusServiceTest {
 			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
 			existingCampus.setInstcamName("");
 			existingCampus.setInstcamOccupation(new BigDecimal(0));
-			existingCampus.setInstitution(instService.getInstitution(3).get());
+			existingCampus.setInstitution(instService.findById(3).get());
 			
 			Assertions.assertThrows(CampusWithoutNameException.class, () -> campusService.editInstitutionCampus(existingCampus));
 		}

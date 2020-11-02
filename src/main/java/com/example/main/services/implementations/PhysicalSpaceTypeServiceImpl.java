@@ -54,7 +54,7 @@ public class PhysicalSpaceTypeServiceImpl implements PhysicalSpaceTypeService {
 		if(physicalSpaceType.getInstitution() == null) {
 			throw new PhysicalSpaceTypeWithoutInstitutionException("No se ha asignado una institución al tipo de espacio físico.");
 		}
-		if(!institutionService.getInstitution(physicalSpaceType.getInstitution().getInstId()).isPresent()) {
+		if(!institutionService.findById(physicalSpaceType.getInstitution().getInstId()).isPresent()) {
 			throw new NoSuchElementException("No existe esta institución.");
 		}
 	}

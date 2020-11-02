@@ -60,7 +60,7 @@ public class PhysicalSpaceTypeServiceTest {
 			Physicalspacetype newPhysicalSpTy = new Physicalspacetype();
 			newPhysicalSpTy.setPhyspctypeId(1);
 			newPhysicalSpTy.setPhyspctypeName("Physical SP 1");
-			newPhysicalSpTy.setInstitution(instService.getInstitution(1).get());
+			newPhysicalSpTy.setInstitution(instService.findById(1).get());
 			newPhysicalSpTy.setPhyspctypeImpliescomm("Estudiantes");
 			Assertions.assertDoesNotThrow(() -> service.savePhysicalSpaceType(newPhysicalSpTy));
 		}
@@ -72,7 +72,7 @@ public class PhysicalSpaceTypeServiceTest {
 		public void savePhysicalSpaceTypeWithoutName() {
 			Physicalspacetype newPhysicalSpTy = new Physicalspacetype();
 			newPhysicalSpTy.setPhyspctypeId(2);
-			newPhysicalSpTy.setInstitution(instService.getInstitution(1).get());
+			newPhysicalSpTy.setInstitution(instService.findById(1).get());
 			newPhysicalSpTy.setPhyspctypeImpliescomm("Estudiantes");
 			Assertions.assertThrows(PhysicalSpaceTypeWithoutNameException.class, () -> service.savePhysicalSpaceType(newPhysicalSpTy));
 		}
@@ -115,7 +115,7 @@ public class PhysicalSpaceTypeServiceTest {
 			Physicalspacetype newPhysicalSpTy = new Physicalspacetype();
 			newPhysicalSpTy.setPhyspctypeId(5);
 			newPhysicalSpTy.setPhyspctypeName("Physical SP 1");
-			newPhysicalSpTy.setInstitution(instService.getInstitution(1).get());
+			newPhysicalSpTy.setInstitution(instService.findById(1).get());
 			Assertions.assertDoesNotThrow(() -> service.savePhysicalSpaceType(newPhysicalSpTy));
 		}
 	}
@@ -150,7 +150,7 @@ public class PhysicalSpaceTypeServiceTest {
 			Physicalspacetype newPhysicalSpTy1 = new Physicalspacetype();
 			newPhysicalSpTy1.setPhyspctypeId(1);
 			newPhysicalSpTy1.setPhyspctypeName("Physical SP 1");
-			newPhysicalSpTy1.setInstitution(instService.getInstitution(3).get());
+			newPhysicalSpTy1.setInstitution(instService.findById(3).get());
 			newPhysicalSpTy1.setPhyspctypeImpliescomm("Estudiantes");
 			service.savePhysicalSpaceType(newPhysicalSpTy1);
 		}
@@ -163,7 +163,7 @@ public class PhysicalSpaceTypeServiceTest {
 			String newName = "Space 2";
 			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
 			existingPhysSpt.setPhyspctypeName(newName);
-			existingPhysSpt.setInstitution(instService.getInstitution(1).get());
+			existingPhysSpt.setInstitution(instService.findById(1).get());
 			Assertions.assertDoesNotThrow(() -> service.editPhysicalSpaceType(existingPhysSpt));
 			Assertions.assertEquals(newName, service.getPhysicalSpaceType(1).get().getPhyspctypeName());
 			Assertions.assertEquals("Icesi", service.getPhysicalSpaceType(1).get().getInstitution().getInstName());
@@ -176,7 +176,7 @@ public class PhysicalSpaceTypeServiceTest {
 		public void editPhysicalSpaceTypeWithoutName() {
 			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
 			existingPhysSpt.setPhyspctypeName("");
-			existingPhysSpt.setInstitution(instService.getInstitution(1).get());
+			existingPhysSpt.setInstitution(instService.findById(1).get());
 			Assertions.assertThrows(PhysicalSpaceTypeWithoutNameException.class, () -> service.editPhysicalSpaceType(existingPhysSpt));
 		}
 		

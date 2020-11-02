@@ -58,7 +58,7 @@ public class InstitutionCampusServiceImpl implements InstitutionCampusService {
 		if(instCampus.getInstcamOccupation().intValue() != 0) {
 			throw new CampusWithNoZeroOccupationException("Fomato no válido de la ocupación del campus.");
 		}
-		if(!instService.getInstitution(instCampus.getInstitution().getInstId()).isPresent()) {
+		if(!instService.findById(instCampus.getInstitution().getInstId()).isPresent()) {
 			throw new NoSuchElementException("No existe la institución especificada.");
 		}
 	}

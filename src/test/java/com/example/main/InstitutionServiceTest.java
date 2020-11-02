@@ -94,12 +94,12 @@ public class InstitutionServiceTest {
 		public void editAnInstitutionCorrectly() throws URLWithoutProtocolException, InstitutionWithoutNameException {
 			String newName = "Univalle";
 			String newURL = "https://univalle.com";
-			Institution currentInst = service.getInstitution(1).get();
+			Institution currentInst = service.findById(1).get();
 			currentInst.setInstName(newName);
 			currentInst.setInstAcademicserverurl(newURL);
 			Assertions.assertDoesNotThrow(() -> service.editInstitution(currentInst));
-			Assertions.assertEquals(newName, service.getInstitution(1).get().getInstName());
-			Assertions.assertEquals(newURL, service.getInstitution(1).get().getInstAcademicserverurl());
+			Assertions.assertEquals(newName, service.findById(1).get().getInstName());
+			Assertions.assertEquals(newURL, service.findById(1).get().getInstAcademicserverurl());
 		}
 		
 		/**
@@ -109,7 +109,7 @@ public class InstitutionServiceTest {
 		 */
 		@Test
 		public void editAnInstitutionWithoutName() throws URLWithoutProtocolException, InstitutionWithoutNameException {
-			Institution currentInst = service.getInstitution(1).get();
+			Institution currentInst = service.findById(1).get();
 			currentInst.setInstName("");
 			currentInst.setInstAcademicserverurl("https://univalle.com");
 			Assertions.assertThrows(InstitutionWithoutNameException.class, () -> service.editInstitution(currentInst));
@@ -122,7 +122,7 @@ public class InstitutionServiceTest {
 		 */
 		@Test
 		public void editAnInstitutionWithoutHttpProtocol() throws URLWithoutProtocolException, InstitutionWithoutNameException {
-			Institution currentInst = service.getInstitution(1).get();
+			Institution currentInst = service.findById(1).get();
 			currentInst.setInstName("Univalle");
 			currentInst.setInstAcademicserverurl("univalle.com");
 			Assertions.assertThrows(URLWithoutProtocolException.class, () -> service.editInstitution(currentInst));

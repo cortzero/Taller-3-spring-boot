@@ -37,7 +37,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 		repo.save(existingInstitution);
 	}
   
-	public Optional<Institution> getInstitution(long id) throws NoSuchElementException {
+	public Optional<Institution> findById(long id) throws NoSuchElementException {
 		return repo.findById(id); 
 	}
 	

@@ -15,7 +15,7 @@ public interface InstitutionService {
 		
 	public void deleteInstitution(Institution institution);
 	
-	public Optional<Institution> getInstitution(long id) throws NoSuchElementException;
+	public Optional<Institution> findById(long id) throws NoSuchElementException;
 	
 	public Iterable<Institution> findAll();
 	
