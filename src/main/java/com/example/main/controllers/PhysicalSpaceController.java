@@ -1,6 +1,7 @@
 package com.example.main.controllers;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.validation.groups.Default;
 
@@ -10,11 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.main.exceptions.No5DigitsExternalIDException;
+import com.example.main.exceptions.PhysicalSpaceTypeWithoutInstitutionException;
+import com.example.main.exceptions.PhysicalSpaceTypeWithoutNameException;
 import com.example.main.model.Physicalspace;
+import com.example.main.model.Physicalspacetype;
 import com.example.main.services.implementations.InstitutionCampusServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceTypeServiceImpl;
@@ -79,5 +84,46 @@ public class PhysicalSpaceController {
 			}
 			return "redirect:/physicalSpaces/";
 		}
-	}	
+	}
+	
+	@GetMapping("/physicalSpaces/edit/{id}")
+	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+		Optional<Physicalspace> physicalspace = physicalSpaceService.findById(id);
+		if (physicalspace == null)
+			throw new IllegalArgumentException("Invalid physical space Id:" + id);
+		model.addAttribute("physicalspace", physicalspace.get());
+		return "physicalSpaces/update_physicalSpace_1";
+	}
+
+	@PostMapping("/physicalSpaces/edit/{id}")
+	public String updatePhysicalSpace1(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
+			@Validated({FirstGroup.class, Default.class}) Physicalspace physicalspace, BindingResult bindingResult, 
+			Model model) {
+		if(bindingResult.hasErrors()) {
+			return "physicalSpaces/update_physicalSpace_1";
+		}else {
+			if (action != null && !action.equals("Cancel")) {
+				model.addAttribute("institutioncampuses", instCampusService.findAll());
+				model.addAttribute("physicalspacetypes", physSpacTypeService.findAll());
+				return "physicalSpaces/update_physicalSpace_2";
+			}
+			return "redirect:/physicalSpaces/";
+		}
+	}
+	
+	@PostMapping("/physicalSpaces/edit1/{id}")
+	public String updatePhysicalSpace2(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
+			@Validated({SecondGroup.class, Default.class}) Physicalspace physicalspace, BindingResult bindingResult, 
+			Model model) throws NumberFormatException, NoSuchElementException, No5DigitsExternalIDException {
+		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
+			model.addAttribute("institutioncampuses", instCampusService.findAll());
+			model.addAttribute("physicalspacetypes", physSpacTypeService.findAll());
+			return "physicalSpaces/update_physicalSpace_2";
+		}else {
+			if (action != null && !action.equals("Cancel")) {
+				physicalSpaceService.savePhysicalSpace(physicalspace);
+			}
+			return "redirect:/physicalSpaces/";
+		}
+	}
 }
