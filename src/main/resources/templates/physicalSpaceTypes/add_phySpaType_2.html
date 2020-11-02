@@ -20,7 +20,7 @@
 			<h2 class="mb-5">New physical space type</h2>
 			<div class="row">
 				<div class="col-md-6">
-					<form action="#" th:action="@{/physicalSpaceTypes/add}" th:object="${physicalSpaceType}"
+					<form action="#" th:action="@{/physicalSpaceTypes/add1}" th:object="${physicalspacetype}"
 						method="post">
 						<div class="row">
 							<input type="hidden" th:field="*{physpctypeExtid}" id="physpctypeExtid"/>
@@ -31,7 +31,7 @@
 								<select th:field="*{institution}">
 									<option th:each="inst : ${institutions}" th:value="${inst.instId}"
 										class="form-control" th:text="${inst.instName}"
-										th:selected="${physicalSpaceType.institution=inst}"></option>
+										th:selected="${physicalspacetype.institution=inst}"></option>
 								</select>
 								<span th:if="${#fields.hasErrors('institution')}"
 									th:errors="*{institution}" class="text-danger"></span>

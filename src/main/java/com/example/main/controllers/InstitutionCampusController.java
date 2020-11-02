@@ -40,19 +40,18 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus/add")
 	public String showSaveCampus(Model model) {
-		model.addAttribute("campus", new Institutioncampus());
+		model.addAttribute("institutioncampus", new Institutioncampus());
 		return "campus/add_campus_1";
 	}
 	
 	@PostMapping("/campus/add")
-	public String saveCampus1(@Validated({FirstGroup.class, Default.class}) Institutioncampus campus, BindingResult bindingResult,
+	public String saveCampus1(@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult,
 			Model model, @RequestParam(value = "action", required = true) String action) {
 		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {			
 			return "campus/add_campus_1";
 		}
 		else {
 			if(!action.equals("Cancelar")) {
-				model.addAttribute("campus", campus);
 				model.addAttribute("institutions", instService.findAll());
 				return "campus/add_campus_2";
 			}
@@ -61,17 +60,16 @@ public class InstitutionCampusController {
 	}
 	
 	@PostMapping("/campus/add1")
-	public String saveCampus2(@Validated({FirstGroup.class, Default.class}) Institutioncampus campus, BindingResult bindingResult,
+	public String saveCampus2(@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult,
 			Model model, @RequestParam(value = "action", required = true) String action) 
 			throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
 		if(bindingResult.hasErrors() && !action.equals("Cancelar")) {
-			model.addAttribute("campus", campus);
 			model.addAttribute("institutions", instService.findAll());
 			return "campus/add_campus_2";
 		}
 		else {
 			if(!action.equals("Cancelar")) {
-				campusService.saveInstitutionCampus(campus);
+				campusService.saveInstitutionCampus(institutioncampus);
 			}
 			return "redirect:/campus";
 		}

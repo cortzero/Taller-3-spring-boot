@@ -1,15 +1,14 @@
 package com.example.main.model;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
 
 import java.util.List;
-
 
 /**
  * The persistent class for the PHYSICALSPACETYPE database table.
@@ -28,6 +27,7 @@ public class Physicalspacetype implements Serializable {
 
 	@Column(name="PHYSPCTYPE_EXTID")
 	@NotBlank(message = "External id must not be empty", groups = FirstGroup.class)
+	@Pattern(regexp = "(?<!\\d)\\d{5}(?!\\d)", message = "External ID must have exactly 5 digits", groups = FirstGroup.class)
 	private String physpctypeExtid;
 
 	@Column(name="PHYSPCTYPE_IMPLIESCOMM")

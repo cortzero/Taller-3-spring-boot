@@ -20,7 +20,7 @@
 			<h2 class="mb-5">Nuevo campus</h2>
 			<div class="row">
 				<div class="col-md-6">
-					<form action="#" th:action="@{/campus/add1}" th:object="${campus}"
+					<form action="#" th:action="@{/campus/add1}" th:object="${institutioncampus}"
 						method="post">
 						<div class="row">
 							<input type="hidden" th:field="*{instcamName}" id="instcamName"/>
@@ -30,7 +30,7 @@
 								<select th:field="*{institution}">
 									<option th:each="inst : ${institutions}" th:value="${inst.instId}"
 										class="form-control" th:text="${inst.instName}"
-										th:selected="${campus.institution=inst}"></option>
+										th:selected="${institutioncampus.institution=inst}"></option>
 								</select>
 								<span th:if="${#fields.hasErrors('institution')}"
 									th:errors="*{institution}" class="text-danger"></span>

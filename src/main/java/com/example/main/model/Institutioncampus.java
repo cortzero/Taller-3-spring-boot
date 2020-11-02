@@ -33,10 +33,10 @@ public class Institutioncampus implements Serializable {
 	private String instcamName;
 
 	@Column(name="INSTCAM_OCCUPATION")
-	@DecimalMin(value = "0.0", groups = FirstGroup.class)	//Creación
-	@DecimalMax(value = "0.0", groups = FirstGroup.class)
-	@DecimalMin(value = "0.0", groups = SecondGroup.class)	//Edición
-	@DecimalMax(value = "100.0", groups = SecondGroup.class)
+	@DecimalMin(value = "0.0", message = "Occupation must be 0", groups = FirstGroup.class)	//Creación
+	@DecimalMax(value = "0.0", message = "Occupation must be 0", groups = FirstGroup.class)
+	@DecimalMin(value = "0.0", message = "Occupation must be between 0 and 100", groups = SecondGroup.class)	//Edición
+	@DecimalMax(value = "100.0", message = "Occupation must be between 0 and 100", groups = SecondGroup.class)
 	private BigDecimal instcamOccupation;
 
 	//bi-directional many-to-one association to Device

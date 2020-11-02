@@ -49,7 +49,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 		if(institution.getInstName() == null || institution.getInstName().isEmpty()) {
 			throw new InstitutionWithoutNameException("No se especificó el nombre de la institución");
 		}
-		if(!institution.getInstAcademicserverurl().contains("https://")) { 
+		if(!institution.getInstAcademicserverurl().startsWith("https://")) { 
 			throw new URLWithoutProtocolException("URL sin protocolo.");
 		}
 	}

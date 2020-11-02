@@ -28,7 +28,7 @@ public class Institution implements Serializable {
 
 	@Column(name = "INST_ACADEMICSERVERURL")
 	@NotBlank(message = "Institution URL must not be empty", groups = FirstGroup.class)
-	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL")
+	@Pattern(regexp = "^(https|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL", groups = FirstGroup.class)
 	private String instAcademicserverurl;
 
 	@Column(name = "INST_ACADEXTRADATAURL")
@@ -41,7 +41,7 @@ public class Institution implements Serializable {
 
 	@Column(name = "INST_ACADLOGINURL")
 	@NotBlank(message = "Academic Institution login URL must not be empty", groups = SecondGroup.class)
-	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL")
+	@Pattern(regexp = "^(https|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL", groups = SecondGroup.class)
 	private String instAcadloginurl;
 
 	@Column(name = "INST_ACADLOGINUSERNAME")
@@ -57,7 +57,7 @@ public class Institution implements Serializable {
 
 	@Column(name = "INST_ACADPHYSICALSPACESURL")
 	@NotBlank(message = "Academic physical space URL must not be empty", groups = SecondGroup.class)
-	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL")
+	@Pattern(regexp = "^(https|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]", message = "Invalid URL", groups = SecondGroup.class)
 	private String instAcadphysicalspacesurl;
 
 	@Column(name = "INST_ACADPROGRAMMEDCOURSESURL")
