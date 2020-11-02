@@ -121,8 +121,8 @@ public class PhysicalSpaceServiceTest {
 		public void savePhysicalSpaceCorrectly() {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(1);
-			physSpace.setInstitutioncampus(campusService.getInstitutionCampus(1).get());
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(1).get());
+			physSpace.setInstitutioncampus(campusService.findById(1).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(1).get());
 			physSpace.setPhyspcExtid("12345");
 			
 			Assertions.assertDoesNotThrow(() -> phyService.savePhysicalSpace(physSpace));
@@ -141,7 +141,7 @@ public class PhysicalSpaceServiceTest {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(2);
 			physSpace.setInstitutioncampus(nonExistingCampus);
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(1).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(1).get());
 			physSpace.setPhyspcExtid("12345");
 			
 			Assertions.assertThrows(NoSuchElementException.class, () -> phyService.savePhysicalSpace(physSpace));
@@ -176,8 +176,8 @@ public class PhysicalSpaceServiceTest {
 		public void savePhysicalSpaceWithMoreThan5DigitsExtID() {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(4);
-			physSpace.setInstitutioncampus(campusService.getInstitutionCampus(1).get());
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(1).get());
+			physSpace.setInstitutioncampus(campusService.findById(1).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(1).get());
 			physSpace.setPhyspcExtid("123456789");
 			
 			Assertions.assertThrows(No5DigitsExternalIDException.class, () -> phyService.savePhysicalSpace(physSpace));
@@ -191,8 +191,8 @@ public class PhysicalSpaceServiceTest {
 		public void savePhysicalSpaceWithLessThan5DigitsExtID() {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(5);
-			physSpace.setInstitutioncampus(campusService.getInstitutionCampus(2).get());
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			physSpace.setInstitutioncampus(campusService.findById(2).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(2).get());
 			physSpace.setPhyspcExtid("12");
 			
 			Assertions.assertThrows(No5DigitsExternalIDException.class, () -> phyService.savePhysicalSpace(physSpace));
@@ -206,8 +206,8 @@ public class PhysicalSpaceServiceTest {
 		public void savePhysicalSpaceWithNoExtID() {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(6);
-			physSpace.setInstitutioncampus(campusService.getInstitutionCampus(1).get());
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			physSpace.setInstitutioncampus(campusService.findById(1).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(2).get());
 			physSpace.setPhyspcExtid("");
 			
 			Assertions.assertDoesNotThrow(() -> phyService.savePhysicalSpace(physSpace));
@@ -223,8 +223,8 @@ public class PhysicalSpaceServiceTest {
 		public void setPhysicalSpace() throws NumberFormatException, NoSuchElementException, No5DigitsExternalIDException {
 			Physicalspace physSpace = new Physicalspace();
 			physSpace.setPhyspcId(1);
-			physSpace.setInstitutioncampus(campusService.getInstitutionCampus(1).get());
-			physSpace.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(1).get());
+			physSpace.setInstitutioncampus(campusService.findById(1).get());
+			physSpace.setPhysicalspacetype(phyTyService.findById(1).get());
 			physSpace.setPhyspcExtid("12345");
 			phyService.savePhysicalSpace(physSpace);
 		}
@@ -234,15 +234,15 @@ public class PhysicalSpaceServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceCorrectly() {
-			Physicalspace existingPhySp = phyService.getPhysicalSpace(1).get();
-			existingPhySp.setInstitutioncampus(campusService.getInstitutionCampus(3).get());
-			existingPhySp.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			Physicalspace existingPhySp = phyService.findById(1).get();
+			existingPhySp.setInstitutioncampus(campusService.findById(3).get());
+			existingPhySp.setPhysicalspacetype(phyTyService.findById(2).get());
 			existingPhySp.setPhyspcExtid("56789");
 			
 			Assertions.assertDoesNotThrow(() -> phyService.editPhysicalSpace(existingPhySp));
-			Assertions.assertEquals("56789", phyService.getPhysicalSpace(1).get().getPhyspcExtid());
-			Assertions.assertEquals("Univalle Palmira", phyService.getPhysicalSpace(1).get().getInstitutioncampus().getInstcamName());
-			Assertions.assertEquals("PSType 2", phyService.getPhysicalSpace(1).get().getPhysicalspacetype().getPhyspctypeName());
+			Assertions.assertEquals("56789", phyService.findById(1).get().getPhyspcExtid());
+			Assertions.assertEquals("Univalle Palmira", phyService.findById(1).get().getInstitutioncampus().getInstcamName());
+			Assertions.assertEquals("PSType 2", phyService.findById(1).get().getPhysicalspacetype().getPhyspctypeName());
 		}
 		
 		/**
@@ -251,15 +251,15 @@ public class PhysicalSpaceServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceWithNoExtID() {
-			Physicalspace existingPhySp = phyService.getPhysicalSpace(1).get();
-			existingPhySp.setInstitutioncampus(campusService.getInstitutionCampus(3).get());
-			existingPhySp.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			Physicalspace existingPhySp = phyService.findById(1).get();
+			existingPhySp.setInstitutioncampus(campusService.findById(3).get());
+			existingPhySp.setPhysicalspacetype(phyTyService.findById(2).get());
 			existingPhySp.setPhyspcExtid("");
 			
 			Assertions.assertDoesNotThrow(() -> phyService.editPhysicalSpace(existingPhySp));
-			Assertions.assertEquals("", phyService.getPhysicalSpace(1).get().getPhyspcExtid());
-			Assertions.assertEquals("Univalle Palmira", phyService.getPhysicalSpace(1).get().getInstitutioncampus().getInstcamName());
-			Assertions.assertEquals("PSType 2", phyService.getPhysicalSpace(1).get().getPhysicalspacetype().getPhyspctypeName());
+			Assertions.assertEquals("", phyService.findById(1).get().getPhyspcExtid());
+			Assertions.assertEquals("Univalle Palmira", phyService.findById(1).get().getInstitutioncampus().getInstcamName());
+			Assertions.assertEquals("PSType 2", phyService.findById(1).get().getPhysicalspacetype().getPhyspctypeName());
 		}
 		
 		/**
@@ -268,9 +268,9 @@ public class PhysicalSpaceServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceWithoutCampus() {
-			Physicalspace existingPhySp = phyService.getPhysicalSpace(1).get();
+			Physicalspace existingPhySp = phyService.findById(1).get();
 			existingPhySp.setInstitutioncampus(null);
-			existingPhySp.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			existingPhySp.setPhysicalspacetype(phyTyService.findById(2).get());
 			existingPhySp.setPhyspcExtid("56789");
 			
 			Assertions.assertThrows(NoSuchElementException.class, () -> phyService.editPhysicalSpace(existingPhySp));
@@ -282,9 +282,9 @@ public class PhysicalSpaceServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceWithLessThan5DigitsExtID() {
-			Physicalspace existingPhySp = phyService.getPhysicalSpace(1).get();
-			existingPhySp.setInstitutioncampus(campusService.getInstitutionCampus(3).get());
-			existingPhySp.setPhysicalspacetype(phyTyService.getPhysicalSpaceType(2).get());
+			Physicalspace existingPhySp = phyService.findById(1).get();
+			existingPhySp.setInstitutioncampus(campusService.findById(3).get());
+			existingPhySp.setPhysicalspacetype(phyTyService.findById(2).get());
 			existingPhySp.setPhyspcExtid("56");
 			
 			Assertions.assertThrows(No5DigitsExternalIDException.class, () -> phyService.editPhysicalSpace(existingPhySp));

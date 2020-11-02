@@ -161,12 +161,12 @@ public class PhysicalSpaceTypeServiceTest {
 		@Test
 		public void editPhysicalSpaceTypeCorretly() {
 			String newName = "Space 2";
-			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
+			Physicalspacetype existingPhysSpt = service.findById(1).get();
 			existingPhysSpt.setPhyspctypeName(newName);
 			existingPhysSpt.setInstitution(instService.findById(1).get());
 			Assertions.assertDoesNotThrow(() -> service.editPhysicalSpaceType(existingPhysSpt));
-			Assertions.assertEquals(newName, service.getPhysicalSpaceType(1).get().getPhyspctypeName());
-			Assertions.assertEquals("Icesi", service.getPhysicalSpaceType(1).get().getInstitution().getInstName());
+			Assertions.assertEquals(newName, service.findById(1).get().getPhyspctypeName());
+			Assertions.assertEquals("Icesi", service.findById(1).get().getInstitution().getInstName());
 		}
 		
 		/**
@@ -174,7 +174,7 @@ public class PhysicalSpaceTypeServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceTypeWithoutName() {
-			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
+			Physicalspacetype existingPhysSpt = service.findById(1).get();
 			existingPhysSpt.setPhyspctypeName("");
 			existingPhysSpt.setInstitution(instService.findById(1).get());
 			Assertions.assertThrows(PhysicalSpaceTypeWithoutNameException.class, () -> service.editPhysicalSpaceType(existingPhysSpt));
@@ -185,7 +185,7 @@ public class PhysicalSpaceTypeServiceTest {
 		 */
 		@Test
 		public void editPhysicalSpaceTypeWithoutInstitution() {
-			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
+			Physicalspacetype existingPhysSpt = service.findById(1).get();
 			existingPhysSpt.setPhyspctypeName("Space 3");
 			existingPhysSpt.setInstitution(null);
 			Assertions.assertThrows(PhysicalSpaceTypeWithoutInstitutionException.class, () -> service.editPhysicalSpaceType(existingPhysSpt));
@@ -202,7 +202,7 @@ public class PhysicalSpaceTypeServiceTest {
 			inst2.setInstAcademicserverurl("https://anonymous.com");
 			inst2.setInstName("Anonymous");
 			
-			Physicalspacetype existingPhysSpt = service.getPhysicalSpaceType(1).get();
+			Physicalspacetype existingPhysSpt = service.findById(1).get();
 			existingPhysSpt.setPhyspctypeName("Space 3");
 			existingPhysSpt.setInstitution(inst2);
 			Assertions.assertThrows(NoSuchElementException.class, () -> service.editPhysicalSpaceType(existingPhysSpt));

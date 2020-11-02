@@ -43,7 +43,7 @@ public class PhysicalSpaceTypeServiceImpl implements PhysicalSpaceTypeService {
 	}
 
 	@Override
-	public Optional<Physicalspacetype> getPhysicalSpaceType(long id) throws NoSuchElementException {
+	public Optional<Physicalspacetype> findById(long id) throws NoSuchElementException {
 		return repository.findById(id);
 	}
 

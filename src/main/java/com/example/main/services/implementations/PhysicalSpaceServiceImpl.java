@@ -44,7 +44,7 @@ public class PhysicalSpaceServiceImpl implements PhysicalSpaceService {
 	}
 
 	@Override
-	public Optional<Physicalspace> getPhysicalSpace(long id) throws NoSuchElementException {
+	public Optional<Physicalspace> findById(long id) throws NoSuchElementException {
 		return repository.findById(id);
 	}
 
@@ -60,10 +60,10 @@ public class PhysicalSpaceServiceImpl implements PhysicalSpaceService {
 		if(physSp.getPhysicalspacetype() == null) {
 			throw new NoSuchElementException("No se seleccionó un tipo de espacio físico.");
 		}
-		if(!campusService.getInstitutionCampus(physSp.getInstitutioncampus().getInstcamId()).isPresent()) {
+		if(!campusService.findById(physSp.getInstitutioncampus().getInstcamId()).isPresent()) {
 			throw new NoSuchElementException("No existe este campus.");
 		}
-		if(!physSpTypeService.getPhysicalSpaceType(physSp.getPhysicalspacetype().getPhyspctypeId()).isPresent()) {
+		if(!physSpTypeService.findById(physSp.getPhysicalspacetype().getPhyspctypeId()).isPresent()) {
 			throw new NoSuchElementException("No existe este tipo de espacio físico.");
 		}
 		if(physSp.getPhyspcExtid().length() < 5 && physSp.getPhyspcExtid().length() > 0 || physSp.getPhyspcExtid().length() < 0 || physSp.getPhyspcExtid().length() > 5 ) {

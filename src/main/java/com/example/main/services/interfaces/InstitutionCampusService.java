@@ -13,11 +13,11 @@ public interface InstitutionCampusService {
 	
 	public void editInstitutionCampus(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
 	
-	public Optional<Institutioncampus> getInstitutionCampus(long id) throws NoSuchElementException;
-	
 	public void deleteInstitutionCampus(Institutioncampus instCampus);
 	
-	public long getNumberOfCampus();
+	public Optional<Institutioncampus> findById(long id) throws NoSuchElementException;
 	
 	public Iterable<Institutioncampus> findAll();
+	
+	public long getNumberOfCampus();
 }

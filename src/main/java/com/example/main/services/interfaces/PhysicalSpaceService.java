@@ -14,7 +14,7 @@ public interface PhysicalSpaceService {
 	
 	public void deletePhysicalSpace(Physicalspace physSp);
 	
-	public Optional<Physicalspace> getPhysicalSpace(long id) throws NoSuchElementException;
+	public Optional<Physicalspace> findById(long id) throws NoSuchElementException;
 	
 	public Iterable<Physicalspace> findAll();
 	

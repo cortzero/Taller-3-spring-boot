@@ -42,7 +42,7 @@ public class InstitutionCampusServiceImpl implements InstitutionCampusService {
 	}
 
 	@Override
-	public Optional<Institutioncampus> getInstitutionCampus(long id) throws NoSuchElementException {
+	public Optional<Institutioncampus> findById(long id) throws NoSuchElementException {
 		return repository.findById(id);
 	}
 

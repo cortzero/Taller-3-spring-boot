@@ -155,14 +155,14 @@ public class InstitutionCampusServiceTest {
 		@Test
 		public void editCampusCorrectly() {
 			String newName = "Univalle Palmira";
-			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
+			Institutioncampus existingCampus = campusService.findById(1).get();
 			existingCampus.setInstcamName(newName);
 			existingCampus.setInstcamOccupation(new BigDecimal(0));
 			existingCampus.setInstitution(instService.findById(3).get());
 			
 			Assertions.assertDoesNotThrow(() -> campusService.editInstitutionCampus(existingCampus));
-			Assertions.assertEquals(newName, campusService.getInstitutionCampus(1).get().getInstcamName());
-			Assertions.assertEquals("Univalle", campusService.getInstitutionCampus(1).get().getInstitution().getInstName());
+			Assertions.assertEquals(newName, campusService.findById(1).get().getInstcamName());
+			Assertions.assertEquals("Univalle", campusService.findById(1).get().getInstitution().getInstName());
 			
 		}
 		
@@ -172,7 +172,7 @@ public class InstitutionCampusServiceTest {
 		@Test
 		public void editCampusWithANegativeOccupation() {
 			String newName = "Javeriana Bogotá";
-			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
+			Institutioncampus existingCampus = campusService.findById(1).get();
 			existingCampus.setInstcamName(newName);
 			existingCampus.setInstcamOccupation(new BigDecimal(-2));
 			existingCampus.setInstitution(instService.findById(2).get());
@@ -191,7 +191,7 @@ public class InstitutionCampusServiceTest {
 			nonExistingInst.setInstAcademicserverurl("https://icesi.com");
 			
 			String newName = "Icesi Bogotá";
-			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
+			Institutioncampus existingCampus = campusService.findById(1).get();
 			existingCampus.setInstcamName(newName);
 			existingCampus.setInstcamOccupation(new BigDecimal(0));
 			existingCampus.setInstitution(nonExistingInst);
@@ -204,7 +204,7 @@ public class InstitutionCampusServiceTest {
 		 */
 		@Test
 		public void editCampusWithoutName() {
-			Institutioncampus existingCampus = campusService.getInstitutionCampus(1).get();
+			Institutioncampus existingCampus = campusService.findById(1).get();
 			existingCampus.setInstcamName("");
 			existingCampus.setInstcamOccupation(new BigDecimal(0));
 			existingCampus.setInstitution(instService.findById(3).get());
