@@ -88,7 +88,7 @@ public class InstitutionCampusController {
 	}
 
 	@PostMapping("/campus/edit/{id}")
-	public String updateCampus1(@PathVariable("id") long id,@RequestParam(value = "action", required = true) String action, 
+	public String updateCampus1(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult, 
 			Model model) {
 		if(bindingResult.hasErrors()) {
@@ -103,7 +103,7 @@ public class InstitutionCampusController {
 	}
 	
 	@PostMapping("/campus/edit1/{id}")
-	public String updateCampus2(@PathVariable("id") long id,@RequestParam(value = "action", required = true) String action, 
+	public String updateCampus2(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({SecondGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult, 
 			Model model) throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
@@ -115,6 +115,5 @@ public class InstitutionCampusController {
 			}
 			return "redirect:/campus/";
 		}
-	}
-	
+	}	
 }

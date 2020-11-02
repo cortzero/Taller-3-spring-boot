@@ -3,6 +3,7 @@ package com.example.main.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import com.example.main.validation.FirstGroup;
@@ -45,7 +46,7 @@ public class Physicalspacetype implements Serializable {
 	//bi-directional many-to-one association to Institution
 	@ManyToOne
 	@JoinColumn(name="INST_INST_ID")
-	@NotBlank(message = "The physical space type must be asociated with an institution", groups = SecondGroup.class)
+	@NotNull(message = "The physical space type must be asociated with an institution", groups = SecondGroup.class)
 	private Institution institution;
 
 	public Physicalspacetype() {
