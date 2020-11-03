@@ -41,8 +41,8 @@
 								<td class="text-info" th:text="${physicalSpaceType.institution.instName}"></td>
 								<td><a th:href="@{/physicalSpaceTypes/edit/{id}(id=${physicalSpaceType.physpctypeId})}"
 									class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
-								<!-- <td><a th:href="@{/users/del/{id}(id=${physicalSpaceType.id})}"
-									class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td> -->
+								<td><a th:href="@{/physicalSpaceTypes/del/{id}(id=${physicalSpaceType.physpctypeId})}"
+									class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>
 							</tr>
 						</tbody>
 					</table>

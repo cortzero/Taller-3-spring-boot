@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.main.exceptions.No5DigitsExternalIDException;
-import com.example.main.exceptions.PhysicalSpaceTypeWithoutInstitutionException;
-import com.example.main.exceptions.PhysicalSpaceTypeWithoutNameException;
 import com.example.main.model.Physicalspace;
-import com.example.main.model.Physicalspacetype;
 import com.example.main.services.implementations.InstitutionCampusServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceTypeServiceImpl;
@@ -125,5 +122,13 @@ public class PhysicalSpaceController {
 			}
 			return "redirect:/physicalSpaces/";
 		}
+	}
+	
+	@GetMapping("/physicalSpaces/del/{id}")
+	public String deletePhysicalSpace(@PathVariable("id") long id, Model model) {
+		Physicalspace physicalspace = physicalSpaceService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid physical space type Id:" + id));
+		physicalSpaceService.deletePhysicalSpace(physicalspace);
+		model.addAttribute("physicalspaces", physicalSpaceService.findAll());
+		return "physicalSpaces/index";
 	}
 }
