@@ -108,4 +108,12 @@ public class InstitutionController {
 			return "redirect:/institutions/";
 		}
 	}
+	
+	@GetMapping("/institutions/del/{id}")
+	public String deleteInstitution(@PathVariable("id") long id, Model model) {
+		Institution institution = instService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		instService.deleteInstitution(institution);
+		model.addAttribute("institutions", instService.findAll());
+		return "institutions/index";
+	}
 }

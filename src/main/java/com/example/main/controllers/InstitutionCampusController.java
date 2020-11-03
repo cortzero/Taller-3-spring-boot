@@ -115,5 +115,13 @@ public class InstitutionCampusController {
 			}
 			return "redirect:/campus/";
 		}
-	}	
+	}
+	
+	@GetMapping("/campus/del/{id}")
+	public String deleteUser(@PathVariable("id") long id, Model model) {
+		Institutioncampus institutioncampus = campusService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid campus Id:" + id));
+		campusService.deleteInstitutionCampus(institutioncampus);
+		model.addAttribute("institutioncampus", campusService.findAll());
+		return "campus/index";
+	}
 }
