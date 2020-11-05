@@ -1,7 +1,5 @@
 package com.example.main.model;
 
-
-
 import java.io.Serializable;
 
 import javax.persistence.EmbeddedId;

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.main.model.Userr;
-import com.example.main.model.UserrType;
 import com.example.main.repositories.UserrRepository;
 import com.example.main.services.interfaces.UserrService;
 
@@ -26,6 +25,11 @@ public class UserrServiceImpl implements UserrService {
 	}
 
 	@Override
+	public void delete(Userr user) {
+		repository.delete(user);
+	}
+
+	@Override
 	public Optional<Userr> findById(long id) {
 		return repository.findById(id);
 	}
@@ -36,23 +40,12 @@ public class UserrServiceImpl implements UserrService {
 	}
 
 	@Override
-	public Iterable<Userr> findAllAdministrators() {
-		return repository.findByType(UserrType.administrador);
+	public Iterable<Userr> findAdministrators() {
+		return null;
 	}
 
 	@Override
-	public Iterable<Userr> findAllOperators() {
-		return repository.findByType(UserrType.operador);
+	public Iterable<Userr> findOperators() {
+		return null;
 	}
-
-	@Override
-	public void delete(Userr user) {
-		repository.delete(user);
-	}
-
-	@Override
-	public UserrType[] getTypes() {
-		return UserrType.values();
-	}
-
 }

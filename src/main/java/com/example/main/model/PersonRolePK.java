@@ -1,6 +1,5 @@
 package com.example.main.model;
 
-
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -10,6 +9,7 @@ import javax.persistence.*;
  */
 @Embeddable
 public class PersonRolePK implements Serializable {
+	
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
@@ -20,16 +20,21 @@ public class PersonRolePK implements Serializable {
 	private long roleRoleId;
 
 	public PersonRolePK() {
+		
 	}
+	
 	public long getPersPersId() {
 		return this.persPersId;
 	}
+	
 	public void setPersPersId(long persPersId) {
 		this.persPersId = persPersId;
 	}
+	
 	public long getRoleRoleId() {
 		return this.roleRoleId;
 	}
+	
 	public void setRoleRoleId(long roleRoleId) {
 		this.roleRoleId = roleRoleId;
 	}
@@ -42,9 +47,7 @@ public class PersonRolePK implements Serializable {
 			return false;
 		}
 		PersonRolePK castOther = (PersonRolePK)other;
-		return 
-			(this.persPersId == castOther.persPersId)
-			&& (this.roleRoleId == castOther.roleRoleId);
+		return (this.persPersId == castOther.persPersId) && (this.roleRoleId == castOther.roleRoleId);
 	}
 
 	public int hashCode() {
@@ -52,7 +55,6 @@ public class PersonRolePK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + ((int) (this.persPersId ^ (this.persPersId >>> 32)));
 		hash = hash * prime + ((int) (this.roleRoleId ^ (this.roleRoleId >>> 32)));
-		
 		return hash;
 	}
 }

@@ -1,12 +1,9 @@
 package com.example.main.model;
 
-
-
 import java.io.Serializable;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
-
 
 /**
  * The persistent class for the ROLEE database table.
@@ -15,6 +12,7 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Rolee.findAll", query="SELECT r FROM Rolee r")
 public class Rolee implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id

@@ -35,9 +35,6 @@ public class Userr implements Serializable {
 	@NotNull
 	@Size(min = 8)
 	private String userPassword;
-	
-	@NotNull
-	private UserrType type;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
