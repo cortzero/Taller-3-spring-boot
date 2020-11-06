@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Physical space type info</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+	<link rel="stylesheet" href="../css/shards.min.css">
+</head>
+	<body>		
+		<div class="container my-5">
+			<h2>Physical space type information</h2>
+			<br>
+			<div class="card" th:object="${physicalspacetype}" th:action="@{/physicalSpaceTypes/info/{id}(id=${physicalspacetype.physpctypeId})}">			
+				<div class="card-body">
+					<h5 class="card-title">ID</h5>
+					<p class="card-text" th:text="*{physpctypeId}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">External ID</h5>
+					<p class="card-text" th:text="*{physpctypeExtid}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Community</h5>
+					<p class="card-text" th:text="*{physpctypeImpliescomm}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Name</h5>
+					<p class="card-text" th:text="*{physpctypeName}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Institution</h5>
+					<p class="card-text" th:text="*{institution.instName}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<a href="/physicalSpaceTypes/" class="btn btn-large btn-success">Back to table</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -124,4 +124,11 @@ public class InstitutionCampusController {
 		model.addAttribute("institutioncampus", campusService.findAll());
 		return "campus/index";
 	}
+	
+	@GetMapping("/campus/info/{id}")
+	public String showInformation(@PathVariable("id") long id, Model model) {
+		Institutioncampus institutioncampus = campusService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		model.addAttribute("institutioncampus", institutioncampus);
+		return "campus/show_info";
+	}
 }

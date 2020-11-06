@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutInstitutionException;
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutNameException;
-import com.example.main.model.Institution;
 import com.example.main.model.Physicalspacetype;
 import com.example.main.services.implementations.InstitutionServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceTypeServiceImpl;
@@ -124,5 +123,12 @@ public class PhysicalSpaceTypeController {
 		phySpTypeService.deletePhysicalSpaceType(physicalspacetype);
 		model.addAttribute("physicalSpaceTypes", phySpTypeService.findAll());
 		return "physicalSpaceTypes/index";
+	}
+	
+	@GetMapping("/physicalSpaceTypes/info/{id}")
+	public String showInformation(@PathVariable("id") long id, Model model) {
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		model.addAttribute("physicalspacetype", physicalspacetype);
+		return "physicalSpaceTypes/show_info";
 	}
 }

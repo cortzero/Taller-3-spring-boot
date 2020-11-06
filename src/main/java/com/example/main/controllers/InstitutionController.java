@@ -82,7 +82,7 @@ public class InstitutionController {
 	}
 
 	@PostMapping("/institutions/edit/{id}")
-	public String updateUser1(@PathVariable("id") long id,@RequestParam(value = "action", required = true) String action, 
+	public String updateUser1(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({FirstGroup.class, Default.class}) Institution institution, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "institutions/update_inst_1";
@@ -95,7 +95,7 @@ public class InstitutionController {
 	}
 	
 	@PostMapping("/institutions/edit1/{id}")
-	public String updateUser2(@PathVariable("id") long id,@RequestParam(value = "action", required = true) String action, 
+	public String updateUser2(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({SecondGroup.class, Default.class}) Institution institution, BindingResult bindingResult, Model model) 
 			throws URLWithoutProtocolException, InstitutionWithoutNameException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
@@ -115,5 +115,12 @@ public class InstitutionController {
 		instService.deleteInstitution(institution);
 		model.addAttribute("institutions", instService.findAll());
 		return "institutions/index";
+	}
+	
+	@GetMapping("/institutions/info/{id}")
+	public String showInformation(@PathVariable("id") long id, Model model) {
+		Institution institution = instService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		model.addAttribute("institution", institution);
+		return "institutions/show_inst_information";
 	}
 }

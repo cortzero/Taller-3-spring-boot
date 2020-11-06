@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title>Institution info</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+	<link rel="stylesheet" href="../css/shards.min.css">
+</head>
+	<body>		
+		<div class="container my-5">
+			<h2>Institution information</h2>
+			<br>
+			<div class="card" th:object="${institution}" th:action="@{/institutions/info/{id}(id=${institution.instId})}">			
+				<div class="card-body">
+					<h5 class="card-title">ID</h5>
+					<p class="card-text" th:text="*{instId}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Institution name</h5>
+					<p class="card-text" th:text="*{instName}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">URL</h5>
+					<p class="card-text" th:text="*{instAcademicserverurl}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Login password</h5>
+					<p class="card-text" th:text="*{instAcadloginpassword}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">URL login</h5>
+					<p class="card-text" th:text="*{instAcadloginurl}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Login username</h5>
+					<p class="card-text" th:text="*{instAcadloginusername}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<h5 class="card-title">Physical space URL</h5>
+					<p class="card-text" th:text="*{instAcadphysicalspacesurl}">Main Content</p>
+				</div>
+				<br>
+				<div class="card-body">
+					<a href="/institutions/" class="btn btn-large btn-success">Back to table</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

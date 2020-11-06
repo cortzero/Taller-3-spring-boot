@@ -131,4 +131,11 @@ public class PhysicalSpaceController {
 		model.addAttribute("physicalspaces", physicalSpaceService.findAll());
 		return "physicalSpaces/index";
 	}
+	
+	@GetMapping("/physicalSpaces/info/{id}")
+	public String showInformation(@PathVariable("id") long id, Model model) {
+		Physicalspace physicalspace = physicalSpaceService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		model.addAttribute("physicalspace", physicalspace);
+		return "physicalSpaces/show_info";
+	}
 }

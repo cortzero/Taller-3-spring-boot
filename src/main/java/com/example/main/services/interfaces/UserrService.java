@@ -12,6 +12,8 @@ public interface UserrService {
 	
 	public Optional<Userr> findById(long id);
 	
+	public Userr findByUsername(String username);
+	
 	public Iterable<Userr> findAll();
 	
 	public Iterable<Userr> findAdministrators();
