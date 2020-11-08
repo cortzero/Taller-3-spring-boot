@@ -2,6 +2,7 @@ package com.example.main.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,23 +24,23 @@ public class Userr implements Serializable {
 	private long userId;
 
 	@Column(name="INST_INST_ID")
-	@NotNull
+	//@NotNull
 	private BigDecimal instInstId;
 
 	@Column(name="USER_NAME")
-	@NotNull
-	@Size(min = 3)
+//	@NotBlank
+//	@Size(min = 3)
 	private String userName;
 
 	@Column(name="USER_PASSWORD")
-	@NotNull
-	@Size(min = 8)
+//	@NotBlank
+//	@Size(min = 3)
 	private String userPassword;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
 	@JoinColumn(name="PERS_PERS_ID")
-	@NotNull
+//	@NotNull
 	private Person person;
 
 	public Userr() {

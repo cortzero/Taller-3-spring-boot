@@ -33,16 +33,6 @@ public class UserrServiceImpl implements UserrService {
 	public Optional<Userr> findById(long id) {
 		return repository.findById(id);
 	}
-	
-	@Override
-	public Userr findByUsername(String username) {
-		for(Userr user : repository.findAll()) {
-			if(user.getUserName().equals(username)) {
-				return user;
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public Iterable<Userr> findAll() {
