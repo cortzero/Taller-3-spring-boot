@@ -63,9 +63,7 @@ public class InstitutionCampusServiceTest {
 	
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
-	class Creation {
-		
-		
+	class Creation {		
 		
 		/**
 		 * Prueba 1: Guardar un campus con un nombre no vacío, una ocupación en cero y que esté asociado a una 
