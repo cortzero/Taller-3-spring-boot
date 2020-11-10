@@ -33,12 +33,12 @@
 				<br>
 				<div class="card-body">
 					<h5 class="card-title">Campus</h5>
-					<p class="card-text" th:text="*{institutioncampus.instcamName}">Main Content</p>
+					<a th:href="@{/campus/info/{id}(id=*{institutioncampus.instcamId})}"><p class="card-text" th:text="*{institutioncampus.instcamName}">Main Content</p></a>
 				</div>
 				<br>
 				<div class="card-body">
 					<h5 class="card-title">Type</h5>
-					<p class="card-text" th:text="*{physicalspacetype.physpctypeName}">Main Content</p>
+					<a th:href="@{/physicalSpaceTypes/info/{id}(id=*{physicalspacetype.physpctypeId})}"><p class="card-text" th:text="*{physicalspacetype.physpctypeName}">Main Content</p></a>
 				</div>
 				<br>
 				<div class="card-body">
