@@ -13,7 +13,7 @@
 </head>
 	<body>		
 		<div class="container my-5">
-			<h2>Institution information</h2>
+			<h2>Institution Information</h2>
 			<br>
 			<div class="card" th:object="${institution}" th:action="@{/institutions/info/{id}(id=${institution.instId})}">			
 				<div class="card-body">
@@ -52,7 +52,9 @@
 				</div>
 				<br>
 				<div class="card-body">
-					<a href="/institutions/" class="btn btn-large btn-success">Back to table</a>
+					<a th:if="${institutioncampus != null}" th:href="@{/campus/info/{id}(id=${institutioncampus.instcamId})}" class="btn btn-large btn-success">Return to campus</a>
+					<a th:if="${physicalspacetype != null}" th:href="@{/physicalSpaceTypes/info/{id}(id=${physicalspacetype.physpctypeId})}" class="btn btn-large btn-success">Return to physical space type</a>
+					<a th:if="${institutioncampus == null && physicalspacetype == null}" href="/institutions/" class="btn btn-large btn-success">Back to table</a>
 				</div>
 			</div>
 		</div>

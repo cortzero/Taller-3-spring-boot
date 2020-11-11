@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutInstitutionException;
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutNameException;
+import com.example.main.model.Physicalspace;
 import com.example.main.model.Physicalspacetype;
 import com.example.main.services.implementations.InstitutionServiceImpl;
+import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
 import com.example.main.services.implementations.PhysicalSpaceTypeServiceImpl;
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
@@ -28,11 +30,13 @@ public class PhysicalSpaceTypeController {
 
 	private PhysicalSpaceTypeServiceImpl phySpTypeService;
 	private InstitutionServiceImpl instService;
+	private PhysicalSpaceServiceImpl physicalSpaceService;
 	
 	@Autowired
-	public PhysicalSpaceTypeController(PhysicalSpaceTypeServiceImpl phySpTypeService, InstitutionServiceImpl instService) {
+	public PhysicalSpaceTypeController(PhysicalSpaceTypeServiceImpl phySpTypeService, InstitutionServiceImpl instService, PhysicalSpaceServiceImpl physicalSpaceService) {
 		this.phySpTypeService = phySpTypeService;
 		this.instService = instService;
+		this.physicalSpaceService = physicalSpaceService;
 	}
 	
 	@GetMapping("/physicalSpaceTypes")
@@ -129,6 +133,15 @@ public class PhysicalSpaceTypeController {
 	public String showInformation(@PathVariable("id") long id, Model model) {
 		Physicalspacetype physicalspacetype = phySpTypeService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
 		model.addAttribute("physicalspacetype", physicalspacetype);
+		return "physicalSpaceTypes/show_info";
+	}
+	
+	@GetMapping("/physicalSpaceTypes/info/{physpatyid}/physicalspace/{physpid}")
+	public String showInformationFromPhysicalSpace(@PathVariable("physpatyid") long physpatyid, @PathVariable("physpid") long physpid, Model model) {
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(physpatyid).orElseThrow(() -> new IllegalArgumentException("Invalid institution campus Id:" + physpatyid));
+		Physicalspace physicalspace = physicalSpaceService.findById(physpid).orElseThrow(() -> new IllegalArgumentException("Invalid physical space Id:" + physpid));
+		model.addAttribute("physicalspacetype", physicalspacetype);
+		model.addAttribute("physicalspace", physicalspace);
 		return "physicalSpaceTypes/show_info";
 	}
 }

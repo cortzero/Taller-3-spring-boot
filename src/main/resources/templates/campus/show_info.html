@@ -13,7 +13,7 @@
 </head>
 	<body>		
 		<div class="container my-5">
-			<h2>Campus information</h2>
+			<h2>Campus Information</h2>
 			<br>
 			<div class="card" th:object="${institutioncampus}" th:action="@{/campus/info/{id}(id=${institutioncampus.instcamId})}">			
 				<div class="card-body">
@@ -33,11 +33,12 @@
 				<br>
 				<div class="card-body">
 					<h5 class="card-title">Institution</h5>
-					<a th:href="@{/institutions/info/{id}(id=*{institution.instId})}"><p class="card-text" th:text="*{institution.instName}">Main Content</p></a>					
+					<a th:href="@{/institutions/info/{instid}/campus/{campusid}(instid=*{institution.instId}, campusid=*{instcamId})}"><p class="card-text" th:text="*{institution.instName}">Main Content</p></a>					
 				</div>
 				<br>
 				<div class="card-body">
-					<a href="/campus/" class="btn btn-large btn-success">Back to table</a>
+					<a th:if="${physicalspace != null}" th:href="@{/physicalSpaces/info/{id}(id=${physicalspace.physpcId})}" class="btn btn-large btn-success">Return to physical space</a>
+					<a th:if="${physicalspace == null}" href="/campus/" class="btn btn-large btn-success">Back to table</a>
 				</div>
 			</div>
 		</div>

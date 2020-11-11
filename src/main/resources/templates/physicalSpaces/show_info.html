@@ -13,7 +13,7 @@
 </head>
 	<body>		
 		<div class="container my-5">
-			<h2>Physical space information</h2>
+			<h2>Physical Space Information</h2>
 			<br>
 			<div class="card" th:object="${physicalspace}" th:action="@{/physicalSpaces/info/{id}(id=${physicalspace.physpcId})}">			
 				<div class="card-body">
@@ -33,12 +33,12 @@
 				<br>
 				<div class="card-body">
 					<h5 class="card-title">Campus</h5>
-					<a th:href="@{/campus/info/{id}(id=*{institutioncampus.instcamId})}"><p class="card-text" th:text="*{institutioncampus.instcamName}">Main Content</p></a>
+					<a th:href="@{/campus/info/{campusid}/physicalspace/{physpid}(campusid=*{institutioncampus.instcamId}, physpid=*{physpcId})}"><p class="card-text" th:text="*{institutioncampus.instcamName}">Main Content</p></a>
 				</div>
 				<br>
 				<div class="card-body">
 					<h5 class="card-title">Type</h5>
-					<a th:href="@{/physicalSpaceTypes/info/{id}(id=*{physicalspacetype.physpctypeId})}"><p class="card-text" th:text="*{physicalspacetype.physpctypeName}">Main Content</p></a>
+					<a th:href="@{/physicalSpaceTypes/info/{physpatyid}/physicalspace/{physpid}(physpatyid=*{physicalspacetype.physpctypeId}, physpid=*{physpcId})}"><p class="card-text" th:text="*{physicalspacetype.physpctypeName}">Main Content</p></a>
 				</div>
 				<br>
 				<div class="card-body">

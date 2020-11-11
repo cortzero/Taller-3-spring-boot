@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.main.exceptions.CampusWithNoZeroOccupationException;
 import com.example.main.exceptions.CampusWithoutNameException;
 import com.example.main.model.Institutioncampus;
+import com.example.main.model.Physicalspace;
 import com.example.main.services.implementations.InstitutionCampusServiceImpl;
 import com.example.main.services.implementations.InstitutionServiceImpl;
+import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
 
@@ -28,11 +30,14 @@ public class InstitutionCampusController {
 
 	private InstitutionCampusServiceImpl campusService;
 	private InstitutionServiceImpl instService;
+	private PhysicalSpaceServiceImpl physicalSpaceService;
 	
 	@Autowired
-	public InstitutionCampusController(InstitutionCampusServiceImpl campusService, InstitutionServiceImpl instService) {
+	public InstitutionCampusController(InstitutionCampusServiceImpl campusService, InstitutionServiceImpl instService,
+			PhysicalSpaceServiceImpl physicalSpaceService) {
 		this.campusService = campusService;
 		this.instService = instService;
+		this.physicalSpaceService = physicalSpaceService;
 	}
 	
 	@GetMapping("/campus")
@@ -109,7 +114,8 @@ public class InstitutionCampusController {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			model.addAttribute("institutions", instService.findAll());
 			return "campus/update_campus_2";
-		}else {
+		}
+		else {
 			if (action != null && !action.equals("Cancel")) {
 				campusService.saveInstitutionCampus(institutioncampus);
 			}
@@ -129,6 +135,15 @@ public class InstitutionCampusController {
 	public String showInformation(@PathVariable("id") long id, Model model) {
 		Institutioncampus institutioncampus = campusService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
 		model.addAttribute("institutioncampus", institutioncampus);
+		return "campus/show_info";
+	}
+	
+	@GetMapping("/campus/info/{campusid}/physicalspace/{physpid}")
+	public String showInformationFromPhysicalSpace(@PathVariable("campusid") long campusid, @PathVariable("physpid") long physpid, Model model) {
+		Institutioncampus institutioncampus = campusService.findById(campusid).orElseThrow(() -> new IllegalArgumentException("Invalid institution campus Id:" + campusid));
+		Physicalspace physicalspace = physicalSpaceService.findById(physpid).orElseThrow(() -> new IllegalArgumentException("Invalid physical space Id:" + physpid));
+		model.addAttribute("institutioncampus", institutioncampus);
+		model.addAttribute("physicalspace", physicalspace);
 		return "campus/show_info";
 	}
 }
