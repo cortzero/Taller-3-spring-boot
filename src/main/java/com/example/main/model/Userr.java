@@ -23,24 +23,24 @@ public class Userr implements Serializable {
 	@Column(name="USER_ID")
 	private long userId;
 
-	@Column(name="INST_INST_ID")
-	//@NotNull
+	@NotNull
+	@Column(name="INST_INST_ID")	
 	private BigDecimal instInstId;
-
-	@Column(name="USER_NAME")
-//	@NotBlank
-//	@Size(min = 3)
+	
+	@NotBlank
+	@Size(min = 3)
+	@Column(name="USER_NAME")	
 	private String userName;
 
+	@NotBlank
+	@Size(min = 3)
 	@Column(name="USER_PASSWORD")
-//	@NotBlank
-//	@Size(min = 3)
 	private String userPassword;
 
 	//bi-directional many-to-one association to Person
 	@ManyToOne
-	@JoinColumn(name="PERS_PERS_ID")
-//	@NotNull
+	@NotNull
+	@JoinColumn(name="PERS_PERS_ID")	
 	private Person person;
 
 	public Userr() {

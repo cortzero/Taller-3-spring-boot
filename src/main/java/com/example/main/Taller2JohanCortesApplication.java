@@ -1,5 +1,7 @@
 package com.example.main;
 
+import java.math.BigDecimal;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -56,19 +58,18 @@ public class Taller2JohanCortesApplication {
 			
 			Userr userAdmin = new Userr();
 			userAdmin.setUserName("Admin");
-			userAdmin.setUserPassword("123");
+			userAdmin.setUserPassword("1234");
 			userAdmin.setPerson(admin);
+			userAdmin.setInstInstId(new BigDecimal(1));
 			
 			Userr userOp = new Userr();
 			userOp.setUserName("Operator");
-			userOp.setUserPassword("987");
+			userOp.setUserPassword("9876");
 			userOp.setPerson(op);
+			userOp.setInstInstId(new BigDecimal(1));
 			
 			userRepository.save(userAdmin);
 			userRepository.save(userOp);
-			
-			System.out.println("ENTERED COMMAND LINE RUNNER!!!");
-			System.out.println("USERS COUNT: " + userRepository.count());
 		};
 	}
 
