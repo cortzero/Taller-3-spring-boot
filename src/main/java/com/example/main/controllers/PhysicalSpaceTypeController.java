@@ -1,7 +1,6 @@
 package com.example.main.controllers;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.validation.groups.Default;
 
@@ -76,7 +75,7 @@ public class PhysicalSpaceTypeController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				phySpTypeService.savePhysicalSpaceType(physicalspacetype);
+				phySpTypeService.save(physicalspacetype);
 			}
 			return "redirect:/physicalSpaceTypes";
 		}
@@ -84,10 +83,10 @@ public class PhysicalSpaceTypeController {
 	
 	@GetMapping("/physicalSpaceTypes/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Optional<Physicalspacetype> physicalspacetype = phySpTypeService.findById(id);
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
 		if (physicalspacetype == null)
 			throw new IllegalArgumentException("Invalid physical space type Id:" + id);
-		model.addAttribute("physicalspacetype", physicalspacetype.get());
+		model.addAttribute("physicalspacetype", physicalspacetype);
 		return "physicalSpaceTypes/update_phySpaType_1";
 	}
 
@@ -115,7 +114,7 @@ public class PhysicalSpaceTypeController {
 			return "physicalSpaceTypes/update_phySpaType_2";
 		}else {
 			if (action != null && !action.equals("Cancel")) {
-				phySpTypeService.savePhysicalSpaceType(physicalspacetype);
+				phySpTypeService.update(physicalspacetype);
 			}
 			return "redirect:/physicalSpaceTypes/";
 		}
@@ -123,23 +122,23 @@ public class PhysicalSpaceTypeController {
 	
 	@GetMapping("/physicalSpaceTypes/del/{id}")
 	public String deletePhysicalSpaceType(@PathVariable("id") long id, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid physical space type Id:" + id));
-		phySpTypeService.deletePhysicalSpaceType(physicalspacetype);
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
+		phySpTypeService.delete(physicalspacetype);
 		model.addAttribute("physicalSpaceTypes", phySpTypeService.findAll());
 		return "physicalSpaceTypes/index";
 	}
 	
 	@GetMapping("/physicalSpaceTypes/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
 		model.addAttribute("physicalspacetype", physicalspacetype);
 		return "physicalSpaceTypes/show_info";
 	}
 	
 	@GetMapping("/physicalSpaceTypes/info/{physpatyid}/physicalspace/{physpid}")
 	public String showInformationFromPhysicalSpace(@PathVariable("physpatyid") long physpatyid, @PathVariable("physpid") long physpid, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(physpatyid).orElseThrow(() -> new IllegalArgumentException("Invalid institution campus Id:" + physpatyid));
-		Physicalspace physicalspace = physicalSpaceService.findById(physpid).orElseThrow(() -> new IllegalArgumentException("Invalid physical space Id:" + physpid));
+		Physicalspacetype physicalspacetype = phySpTypeService.findById(physpatyid);
+		Physicalspace physicalspace = physicalSpaceService.findById(physpid);
 		model.addAttribute("physicalspacetype", physicalspacetype);
 		model.addAttribute("physicalspace", physicalspace);
 		return "physicalSpaceTypes/show_info";

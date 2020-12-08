@@ -1,12 +1,9 @@
 package com.example.main.model;
 
-
-
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
 
 /**
  * The persistent class for the COMMUNITYINSTANCE database table.

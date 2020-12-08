@@ -1,7 +1,6 @@
 package com.example.main.controllers;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.validation.groups.Default;
 
@@ -77,7 +76,7 @@ public class InstitutionCampusController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				campusService.saveInstitutionCampus(institutioncampus);
+				campusService.save(institutioncampus);
 			}
 			return "redirect:/campus";
 		}
@@ -85,10 +84,10 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Optional<Institutioncampus> institutioncampus = campusService.findById(id);
+		Institutioncampus institutioncampus = campusService.findById(id);
 		if (institutioncampus == null)
 			throw new IllegalArgumentException("Invalid institution campus Id:" + id);
-		model.addAttribute("institutioncampus", institutioncampus.get());
+		model.addAttribute("institutioncampus", institutioncampus);
 		return "campus/update_campus_1";
 	}
 
@@ -117,7 +116,7 @@ public class InstitutionCampusController {
 		}
 		else {
 			if (action != null && !action.equals("Cancel")) {
-				campusService.saveInstitutionCampus(institutioncampus);
+				campusService.update(institutioncampus);
 			}
 			return "redirect:/campus/";
 		}
@@ -125,23 +124,23 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus/del/{id}")
 	public String deleteCampus(@PathVariable("id") long id, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid campus Id:" + id));
-		campusService.deleteInstitutionCampus(institutioncampus);
+		Institutioncampus institutioncampus = campusService.findById(id);
+		campusService.delete(institutioncampus);
 		model.addAttribute("institutioncampus", campusService.findAll());
 		return "campus/index";
 	}
 	
 	@GetMapping("/campus/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		Institutioncampus institutioncampus = campusService.findById(id);
 		model.addAttribute("institutioncampus", institutioncampus);
 		return "campus/show_info";
 	}
 	
 	@GetMapping("/campus/info/{campusid}/physicalspace/{physpid}")
 	public String showInformationFromPhysicalSpace(@PathVariable("campusid") long campusid, @PathVariable("physpid") long physpid, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(campusid).orElseThrow(() -> new IllegalArgumentException("Invalid institution campus Id:" + campusid));
-		Physicalspace physicalspace = physicalSpaceService.findById(physpid).orElseThrow(() -> new IllegalArgumentException("Invalid physical space Id:" + physpid));
+		Institutioncampus institutioncampus = campusService.findById(campusid);
+		Physicalspace physicalspace = physicalSpaceService.findById(physpid);
 		model.addAttribute("institutioncampus", institutioncampus);
 		model.addAttribute("physicalspace", physicalspace);
 		return "campus/show_info";

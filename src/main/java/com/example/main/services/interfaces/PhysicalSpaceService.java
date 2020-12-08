@@ -1,23 +1,28 @@
 package com.example.main.services.interfaces;
 
+import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import com.example.main.exceptions.No5DigitsExternalIDException;
 import com.example.main.model.Physicalspace;
 
 public interface PhysicalSpaceService {
 	
-	public void savePhysicalSpace(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException;
+	public void save(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException;
 	
-	public void editPhysicalSpace(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException;
+	public void update(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException;
 	
-	public void deletePhysicalSpace(Physicalspace physSp);
+	public void delete(Physicalspace physSp);
 	
-	public Optional<Physicalspace> findById(long id) throws NoSuchElementException;
+	public Physicalspace findById(long id) throws NoSuchElementException;
 	
-	public Iterable<Physicalspace> findAll();
+	public List<Physicalspace> findByName(String name);
 	
-	public long getAmountOfPhysicalSpaces();
+	public List<Physicalspace> findByExtId(String extId);
+	
+	public List<Physicalspace> findAll();
+	
+	public List<Physicalspace> findPhysicalSpacesWithADateRange(Date startDate, Date endDate);
 
 }

@@ -1,7 +1,7 @@
 package com.example.main.services.interfaces;
 
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import com.example.main.exceptions.CampusWithNoZeroOccupationException;
 import com.example.main.exceptions.CampusWithoutNameException;
@@ -9,15 +9,13 @@ import com.example.main.model.Institutioncampus;
 
 public interface InstitutionCampusService {
 	
-	public void saveInstitutionCampus(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
+	public void save(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
 	
-	public void editInstitutionCampus(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
+	public void update(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
 	
-	public void deleteInstitutionCampus(Institutioncampus instCampus);
+	public void delete(Institutioncampus instCampus);
 	
-	public Optional<Institutioncampus> findById(long id) throws NoSuchElementException;
+	public Institutioncampus findById(long id) throws NoSuchElementException;
 	
-	public Iterable<Institutioncampus> findAll();
-	
-	public long getNumberOfCampus();
+	public List<Institutioncampus> findAll();
 }

@@ -17,11 +17,11 @@ import com.example.main.repositories.PersonRoleRepository;
 import com.example.main.repositories.RoleeRepository;
 import com.example.main.repositories.UserrRepository;
 
-@SpringBootApplication
-public class Taller2JohanCortesApplication {
+@SpringBootApplication(scanBasePackages = "com.example")
+public class Taller3JohanCortesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Taller2JohanCortesApplication.class, args);
+		SpringApplication.run(Taller3JohanCortesApplication.class, args);
 	}
 	
 	@Bean

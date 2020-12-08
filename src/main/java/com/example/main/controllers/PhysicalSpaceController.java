@@ -1,7 +1,6 @@
 package com.example.main.controllers;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.validation.groups.Default;
 
@@ -77,7 +76,7 @@ public class PhysicalSpaceController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				physicalSpaceService.savePhysicalSpace(physicalspace);
+				physicalSpaceService.save(physicalspace);
 			}
 			return "redirect:/physicalSpaces/";
 		}
@@ -85,10 +84,10 @@ public class PhysicalSpaceController {
 	
 	@GetMapping("/physicalSpaces/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Optional<Physicalspace> physicalspace = physicalSpaceService.findById(id);
+		Physicalspace physicalspace = physicalSpaceService.findById(id);
 		if (physicalspace == null)
 			throw new IllegalArgumentException("Invalid physical space Id:" + id);
-		model.addAttribute("physicalspace", physicalspace.get());
+		model.addAttribute("physicalspace", physicalspace);
 		return "physicalSpaces/update_physicalSpace_1";
 	}
 
@@ -118,7 +117,7 @@ public class PhysicalSpaceController {
 			return "physicalSpaces/update_physicalSpace_2";
 		}else {
 			if (action != null && !action.equals("Cancel")) {
-				physicalSpaceService.savePhysicalSpace(physicalspace);
+				physicalSpaceService.update(physicalspace);
 			}
 			return "redirect:/physicalSpaces/";
 		}
@@ -126,15 +125,15 @@ public class PhysicalSpaceController {
 	
 	@GetMapping("/physicalSpaces/del/{id}")
 	public String deletePhysicalSpace(@PathVariable("id") long id, Model model) {
-		Physicalspace physicalspace = physicalSpaceService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid physical space type Id:" + id));
-		physicalSpaceService.deletePhysicalSpace(physicalspace);
+		Physicalspace physicalspace = physicalSpaceService.findById(id);
+		physicalSpaceService.delete(physicalspace);
 		model.addAttribute("physicalspaces", physicalSpaceService.findAll());
 		return "physicalSpaces/index";
 	}
 	
 	@GetMapping("/physicalSpaces/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Physicalspace physicalspace = physicalSpaceService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		Physicalspace physicalspace = physicalSpaceService.findById(id);
 		model.addAttribute("physicalspace", physicalspace);
 		return "physicalSpaces/show_info";
 	}

@@ -1,4 +1,6 @@
-package com.example.main;
+package com.example.main.unittests;
+
+import static org.hamcrest.CoreMatchers.any;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,10 +10,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.example.main.daos.interfaces.InstitutionDAO;
 import com.example.main.exceptions.InstitutionWithoutNameException;
 import com.example.main.exceptions.URLWithoutProtocolException;
 import com.example.main.model.Institution;
@@ -23,16 +27,32 @@ import com.example.main.services.implementations.InstitutionServiceImpl;
 @TestInstance(Lifecycle.PER_CLASS)
 public class InstitutionServiceTest {
 	
-	@Mock
-	private InstitutionRepository repository;
-	
-	
 	@Autowired
 	private InstitutionServiceImpl service;
+	
+	private InstitutionDAO institutionDAOMock = Mockito.mock(InstitutionDAO.class);
+	
+	@BeforeAll
+	public void init() {
+		service = new InstitutionServiceImpl(institutionDAOMock);
+	}
 	
 	@Nested
 	@TestInstance(Lifecycle.PER_CLASS)
 	class Creation {
+		
+		@BeforeAll
+		public void init() {
+			service = new InstitutionServiceImpl(institutionDAOMock);
+			
+			Institution correctInstitution = new Institution();
+			correctInstitution.setInstName("Icesi");
+			
+			Mockito.doAnswer((i) -> {
+				Assertions.assertTrue(correctInstitution.equals(i.getArgument(0)));
+				return null;
+			}).when(institutionDAOMock).save((Institution) any(Institution.class));
+		}
 		
 		/**
 		 * Prueba 1: Guardar una institución con la URL correcta: con el protocolo https y el nombre del dominio que es el
@@ -41,11 +61,10 @@ public class InstitutionServiceTest {
 		@Test
 		public void saveInstitutionWithACorrectURL() {
 			Institution newInstitution = new Institution();
-			newInstitution.setInstId(1);
+			//newInstitution.setInstId(1);
 			newInstitution.setInstAcademicserverurl("https://icesi.com");
 			newInstitution.setInstName("Icesi");
-			Assertions.assertDoesNotThrow(() -> service.saveInstitution(newInstitution));
-			Assertions.assertEquals(1, service.getNumberOfInstitutions());
+			Assertions.assertDoesNotThrow(() -> service.save(newInstitution));
 		}
 		
 		/**
@@ -54,10 +73,10 @@ public class InstitutionServiceTest {
 		@Test
 		public void saveInstitutionWithoutHTTTPSInURL() {
 			Institution newInstitution = new Institution();
-			newInstitution.setInstId(2);
+			//newInstitution.setInstId(2);
 			newInstitution.setInstAcademicserverurl("icesi.com");
 			newInstitution.setInstName("Icesi");
-			Assertions.assertThrows(URLWithoutProtocolException.class, () -> service.saveInstitution(newInstitution));
+			Assertions.assertThrows(URLWithoutProtocolException.class, () -> service.save(newInstitution));
 		}
 		
 		/**
@@ -66,9 +85,9 @@ public class InstitutionServiceTest {
 		@Test
 		public void saveInstitutionWithoutName() {
 			Institution newInstitution = new Institution();
-			newInstitution.setInstId(3);
+			//newInstitution.setInstId(3);
 			newInstitution.setInstAcademicserverurl("https://icesi.com");
-			Assertions.assertThrows(InstitutionWithoutNameException.class, () -> service.saveInstitution(newInstitution));
+			Assertions.assertThrows(InstitutionWithoutNameException.class, () -> service.save(newInstitution));
 		}
 		
 	}
@@ -80,10 +99,10 @@ public class InstitutionServiceTest {
 		@BeforeAll
 		public void setScenario() throws URLWithoutProtocolException, InstitutionWithoutNameException {
 			Institution newInstitution = new Institution();
-			newInstitution.setInstId(1);
+			//newInstitution.setInstId(1);
 			newInstitution.setInstAcademicserverurl("https://javeriana.com");
 			newInstitution.setInstName("Javeriana");
-			service.saveInstitution(newInstitution);
+			service.save(newInstitution);
 		}
 		
 		/**
@@ -94,12 +113,12 @@ public class InstitutionServiceTest {
 		public void editAnInstitutionCorrectly() throws URLWithoutProtocolException, InstitutionWithoutNameException {
 			String newName = "Univalle";
 			String newURL = "https://univalle.com";
-			Institution currentInst = service.findById(1).get();
+			Institution currentInst = service.findById(1);
 			currentInst.setInstName(newName);
 			currentInst.setInstAcademicserverurl(newURL);
-			Assertions.assertDoesNotThrow(() -> service.editInstitution(currentInst));
-			Assertions.assertEquals(newName, service.findById(1).get().getInstName());
-			Assertions.assertEquals(newURL, service.findById(1).get().getInstAcademicserverurl());
+			Assertions.assertDoesNotThrow(() -> service.update(currentInst));
+			Assertions.assertEquals(newName, service.findById(1).getInstName());
+			Assertions.assertEquals(newURL, service.findById(1).getInstAcademicserverurl());
 		}
 		
 		/**
@@ -109,10 +128,10 @@ public class InstitutionServiceTest {
 		 */
 		@Test
 		public void editAnInstitutionWithoutName() throws URLWithoutProtocolException, InstitutionWithoutNameException {
-			Institution currentInst = service.findById(1).get();
+			Institution currentInst = service.findById(1);
 			currentInst.setInstName("");
 			currentInst.setInstAcademicserverurl("https://univalle.com");
-			Assertions.assertThrows(InstitutionWithoutNameException.class, () -> service.editInstitution(currentInst));
+			Assertions.assertThrows(InstitutionWithoutNameException.class, () -> service.update(currentInst));
 		}
 		
 		/**
@@ -122,10 +141,10 @@ public class InstitutionServiceTest {
 		 */
 		@Test
 		public void editAnInstitutionWithoutHttpProtocol() throws URLWithoutProtocolException, InstitutionWithoutNameException {
-			Institution currentInst = service.findById(1).get();
+			Institution currentInst = service.findById(1);
 			currentInst.setInstName("Univalle");
 			currentInst.setInstAcademicserverurl("univalle.com");
-			Assertions.assertThrows(URLWithoutProtocolException.class, () -> service.editInstitution(currentInst));
+			Assertions.assertThrows(URLWithoutProtocolException.class, () -> service.update(currentInst));
 		}
 	}
 }

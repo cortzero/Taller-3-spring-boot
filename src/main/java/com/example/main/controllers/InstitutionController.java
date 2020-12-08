@@ -1,7 +1,5 @@
 package com.example.main.controllers;
 
-import java.util.Optional;
-
 import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +73,7 @@ public class InstitutionController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				instService.saveInstitution(institution);
+				instService.save(institution);
 			}
 			return "redirect:/institutions/";
 		}
@@ -83,10 +81,10 @@ public class InstitutionController {
 	
 	@GetMapping("/institutions/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Optional<Institution> institution = instService.findById(id);
+		Institution institution = instService.findById(id);
 		if (institution == null)
 			throw new IllegalArgumentException("Invalid institution Id:" + id);
-		model.addAttribute("institution", institution.get());
+		model.addAttribute("institution", institution);
 		return "institutions/update_inst_1";
 	}
 
@@ -95,7 +93,8 @@ public class InstitutionController {
 			@Validated({FirstGroup.class, Default.class}) Institution institution, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			return "institutions/update_inst_1";
-		}else {
+		}
+		else {
 			if (action != null && !action.equals("Cancel")) {
 				return "institutions/update_inst_2";
 			}
@@ -109,9 +108,10 @@ public class InstitutionController {
 			throws URLWithoutProtocolException, InstitutionWithoutNameException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
 			return "institutions/update_inst_2";
-		}else {
+		}
+		else {
 			if (action != null && !action.equals("Cancel")) {
-				instService.saveInstitution(institution);
+				instService.update(institution);
 				model.addAttribute("institutions", instService.findAll());
 			}
 			return "redirect:/institutions/";
@@ -120,23 +120,23 @@ public class InstitutionController {
 	
 	@GetMapping("/institutions/del/{id}")
 	public String deleteInstitution(@PathVariable("id") long id, Model model) {
-		Institution institution = instService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
-		instService.deleteInstitution(institution);
+		Institution institution = instService.findById(id);
+		instService.delete(institution);
 		model.addAttribute("institutions", instService.findAll());
 		return "institutions/index";
 	}
 	
 	@GetMapping("/institutions/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Institution institution = instService.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + id));
+		Institution institution = instService.findById(id);
 		model.addAttribute("institution", institution);
 		return "institutions/show_inst_information";
 	}
 	
 	@GetMapping("/institutions/info/{instid}/campus/{campusid}")
 	public String showInformationFromCampus(@PathVariable("instid") long instid, @PathVariable("campusid") long campusid, Model model) {
-		Institution institution = instService.findById(instid).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + instid));
-		Institutioncampus institutioncampus = campusService.findById(campusid).orElseThrow(() -> new IllegalArgumentException("Invalid campus Id:" + campusid));
+		Institution institution = instService.findById(instid);
+		Institutioncampus institutioncampus = campusService.findById(campusid);
 		model.addAttribute("institution", institution);
 		model.addAttribute("institutioncampus", institutioncampus);
 		return "institutions/show_inst_information";
@@ -144,8 +144,8 @@ public class InstitutionController {
 	
 	@GetMapping("/institutions/info/{instid}/physicalspacetype/{physptyid}")
 	public String showInformationFromPhysicalSpaceType(@PathVariable("instid") long instid, @PathVariable("physptyid") long physptyid, Model model) {
-		Institution institution = instService.findById(instid).orElseThrow(() -> new IllegalArgumentException("Invalid institution Id:" + instid));
-		Physicalspacetype physicalspacetype = physiSpaceTyService.findById(physptyid).orElseThrow(() -> new IllegalArgumentException("Invalid physical space type Id:" + physptyid));
+		Institution institution = instService.findById(instid);
+		Physicalspacetype physicalspacetype = physiSpaceTyService.findById(physptyid);
 		model.addAttribute("institution", institution);
 		model.addAttribute("physicalspacetype", physicalspacetype);
 		return "institutions/show_inst_information";
