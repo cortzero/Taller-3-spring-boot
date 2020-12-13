@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.main.model.Person;
 import com.example.main.model.PersonRole;
@@ -72,5 +74,4 @@ public class Taller3JohanCortesApplication {
 			userRepository.save(userOp);
 		};
 	}
-
 }
