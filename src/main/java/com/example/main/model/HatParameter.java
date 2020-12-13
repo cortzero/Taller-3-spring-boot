@@ -4,6 +4,11 @@ package com.example.main.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.example.main.validation.FirstGroup;
+import com.example.main.validation.SecondGroup;
 
 
 /**
@@ -23,17 +28,21 @@ public class HatParameter implements Serializable {
 	private long paramId;
 
 	@Column(name="PARAM_NAME")
+	@NotBlank(groups = FirstGroup.class)
 	private String paramName;
 
 	@Column(name="PARAM_TYPE")
+	@NotBlank(groups = FirstGroup.class)
 	private String paramType;
 
 	@Column(name="PARAM_VALUE")
+	@NotBlank(groups = FirstGroup.class)
 	private String paramValue;
 
 	//bi-directional many-to-one association to Institution
 	@ManyToOne
 	@JoinColumn(name="INST_INST_ID")
+	@NotNull(groups = SecondGroup.class)
 	private Institution institution;
 
 	public HatParameter() {
