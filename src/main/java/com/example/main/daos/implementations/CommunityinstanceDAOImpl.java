@@ -61,4 +61,9 @@ public class CommunityinstanceDAOImpl implements CommunityinstanceDAO {
 		return entityManager.createQuery(jpql).getResultList();
 	}
 
+	@Override
+	public boolean contains(Communityinstance communityinstance) {
+		return entityManager.contains(communityinstance);
+	}
+
 }

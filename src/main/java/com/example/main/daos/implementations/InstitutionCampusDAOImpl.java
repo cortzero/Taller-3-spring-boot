@@ -48,4 +48,9 @@ public class InstitutionCampusDAOImpl implements InstitutionCampusDAO {
 		return entityManager.createQuery(jpql).getResultList();
 	}
 
+	@Override
+	public boolean contains(Institutioncampus institutioncampus) {
+		return entityManager.contains(institutioncampus);
+	}
+
 }

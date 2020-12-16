@@ -92,7 +92,7 @@ public class PhysicalspaceDAOImpl implements PhysicalspaceDAO {
 	}
 
 	@Override
-	public void clear() {
-		entityManager.clear();
+	public boolean contains(Physicalspace physicalspace) {
+		return entityManager.contains(physicalspace);
 	}
 }

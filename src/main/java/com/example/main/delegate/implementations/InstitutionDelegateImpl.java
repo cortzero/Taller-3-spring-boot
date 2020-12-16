@@ -8,9 +8,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -20,20 +22,25 @@ import org.springframework.web.client.RestTemplate;
 
 import com.example.main.delegate.interfaces.InstitutionDelegate;
 import com.example.main.model.Institution;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Component
 public class InstitutionDelegateImpl implements InstitutionDelegate {
 	
-	private static String URL = "http://localhost:8080/admin/institutions/";
+	private static String URL = "http://localhost:8080/rest/institutions/";
 	
     private RestTemplate restTemplate;
 
     @Autowired
     public InstitutionDelegateImpl(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		converter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_HTML, MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON));
+		converter.setObjectMapper(mapper);
+		converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		messageConverters.add(converter);
 		this.restTemplate.setMessageConverters(messageConverters);
     }
@@ -42,25 +49,28 @@ public class InstitutionDelegateImpl implements InstitutionDelegate {
 	public Institution getInstitution(long id) {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity <Institution> entity = new HttpEntity<>(headers);
+		HttpEntity <Institution> entity = new HttpEntity<Institution>(headers);
 	    ResponseEntity<Institution> response = restTemplate.exchange(URL + id, HttpMethod.GET, entity, Institution.class);
-		
-//		Map<String, Long> params = new HashMap<String, Long>();
-//	    params.put("id", id);
-//		ResponseEntity<Institution> response = restTemplate.getForEntity(URL + id, Institution.class, params);
-		return response.getBody();
+	    return response.getBody();
 	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	@Override
 	public List<Institution> getAllInstitutions() {
-		ResponseEntity<List> response = restTemplate.getForEntity(URL, List.class);
-		return response.getBody();
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+		HttpEntity <List<Institution>> entity = new HttpEntity<>(headers);
+	    ResponseEntity<List<Institution>> response = restTemplate.exchange(URL, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Institution>>() {
+        });
+	    return response.getBody();
 	}
 
 	@Override
-	public void createInstitution(Institution institution) {
-		restTemplate.postForEntity(URL, institution, String.class);
+	public HttpStatus createInstitution(Institution institution) {
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+	    HttpEntity <Institution> entity = new HttpEntity<Institution>(institution, headers);
+	    ResponseEntity<String> response = restTemplate.exchange(URL + "create", HttpMethod.POST, entity, String.class);
+	    return response.getStatusCode();
 	}
 
 	@Override

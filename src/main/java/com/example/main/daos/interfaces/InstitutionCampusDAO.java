@@ -16,4 +16,6 @@ public interface InstitutionCampusDAO {
 	
 	public List<Institutioncampus> findAll();
 	
+	public boolean contains(Institutioncampus institutioncampus);
+	
 }

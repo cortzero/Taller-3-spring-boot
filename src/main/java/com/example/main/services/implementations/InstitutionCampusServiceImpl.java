@@ -3,6 +3,7 @@ package com.example.main.services.implementations;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +17,13 @@ import com.example.main.services.interfaces.InstitutionService;
 
 @Service
 @ComponentScan("com.example.main.daos.implementations")
+@ComponentScan("com.example.main.services.implementations.InstitutionCampusServiceImpl")
 public class InstitutionCampusServiceImpl implements InstitutionCampusService {
 
 	private InstitutionCampusDAO campusDAO;
 	private InstitutionService instService;
 	
+	@Autowired
 	public InstitutionCampusServiceImpl(InstitutionCampusDAO campusDAO, InstitutionService instService) {
 		this.campusDAO = campusDAO;
 		this.instService = instService;
@@ -29,14 +32,12 @@ public class InstitutionCampusServiceImpl implements InstitutionCampusService {
 	@Override
 	@Transactional
 	public void save(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException {
-		checkConditions(instCampus);
 		campusDAO.save(instCampus);
 	}
 
 	@Override
 	@Transactional
 	public void update(Institutioncampus instCampus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException {
-		checkConditions(instCampus);
 		campusDAO.update(instCampus);
 	}
 
@@ -68,6 +69,11 @@ public class InstitutionCampusServiceImpl implements InstitutionCampusService {
 		if(instService.findById(instCampus.getInstitution().getInstId()) == null) {
 			throw new NoSuchElementException("No existe la institución especificada.");
 		}
+	}
+
+	@Override
+	public boolean contains(Institutioncampus instCampus) {
+		return campusDAO.contains(instCampus);
 	}
 
 }

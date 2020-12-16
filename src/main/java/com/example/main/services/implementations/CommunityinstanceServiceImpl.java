@@ -32,7 +32,7 @@ public class CommunityinstanceServiceImpl implements CommunityinstanceService {
 
 	@Override
 	@Transactional
-	public void edit(Communityinstance communityinstance) {
+	public void update(Communityinstance communityinstance) {
 		communityDAO.update(communityinstance);
 	}
 
@@ -55,6 +55,11 @@ public class CommunityinstanceServiceImpl implements CommunityinstanceService {
 	@Override
 	public List<Communityinstance> findAll() {
 		return communityDAO.findAll();
+	}
+
+	@Override
+	public boolean contains(Communityinstance communityinstance) {
+		return communityDAO.contains(communityinstance);
 	}
 
 }

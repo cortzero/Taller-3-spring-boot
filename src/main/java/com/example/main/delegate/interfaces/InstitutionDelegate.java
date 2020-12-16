@@ -2,7 +2,7 @@ package com.example.main.delegate.interfaces;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 import com.example.main.model.Institution;
 
@@ -12,7 +12,7 @@ public interface InstitutionDelegate {
 	
 	public List<Institution> getAllInstitutions();
 	
-	public void createInstitution(Institution institution);
+	public HttpStatus createInstitution(Institution institution);
 	
 	public void updateInstitution(long id, Institution institution);
 	

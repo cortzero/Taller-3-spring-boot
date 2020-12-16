@@ -18,4 +18,6 @@ public interface InstitutionCampusService {
 	public Institutioncampus findById(long id) throws NoSuchElementException;
 	
 	public List<Institutioncampus> findAll();
+	
+	public boolean contains(Institutioncampus instCampus);
 }

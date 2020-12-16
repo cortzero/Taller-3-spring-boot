@@ -19,5 +19,7 @@ public interface PhysicalspacetypeDAO {
 	public List<Physicalspacetype> findByExtId(String extId);
 	
 	public List<Physicalspacetype> findAll();
+	
+	public boolean contains(Physicalspacetype physicalspacetype);
 
 }

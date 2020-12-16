@@ -18,5 +18,7 @@ public interface CommunityinstanceDAO {
 	public List<Communityinstance> findByDateRange(Date startDate, Date endDate);
 	
 	public List<Communityinstance> findAll();
+	
+	public boolean contains(Communityinstance communityinstance);
 
 }

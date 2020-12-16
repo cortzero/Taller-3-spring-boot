@@ -68,4 +68,9 @@ public class PhysicalspacetypeDAOImpl implements PhysicalspacetypeDAO {
 		return entityManager.createQuery(jpql).getResultList();
 	}
 
+	@Override
+	public boolean contains(Physicalspacetype physicalspacetype) {
+		return entityManager.contains(physicalspacetype);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.example.main.restservice.interfaces;
 
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -16,8 +17,14 @@ public interface PhysicalSpaceRestService {
 	
 	public ResponseEntity<String> deletePhysicalSpace(long id);
 	
-	public ResponseEntity<Physicalspace> getPhysicalSpace(long id);
+	public Physicalspace getPhysicalSpace(long id);
 	
-	public ResponseEntity<List<Physicalspace>> getAllPhysicalSpace();
+	public List<Physicalspace> getAllPhysicalSpace();
+	
+	public List<Physicalspace> findByName(String name);
+	
+	public List<Physicalspace> findByExtId(String extId);
+	
+	public List<Physicalspace> findPhysicalSpacesWithADateRange(int sDay, int sMonth, int sYear, int eDay, int eMonth, int eYear);
 
 }

@@ -25,6 +25,6 @@ public interface PhysicalspaceDAO {
 	
 	public List<Physicalspace> findAll();
 	
-	public void clear();
+	public boolean contains(Physicalspace physicalspace);
 	
 }

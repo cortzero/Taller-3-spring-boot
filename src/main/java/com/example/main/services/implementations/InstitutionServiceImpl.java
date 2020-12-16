@@ -59,8 +59,8 @@ public class InstitutionServiceImpl implements InstitutionService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean isPresent(Institution institution) {
-		return institutionDAO.isPresent(institution);
+	public boolean contains(Institution institution) {
+		return institutionDAO.contains(institution);
 	}
 	
 	public void checkConditions(Institution institution) throws InstitutionWithoutNameException, URLWithoutProtocolException {

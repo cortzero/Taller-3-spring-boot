@@ -31,14 +31,12 @@ public class PhysicalSpaceTypeServiceImpl implements PhysicalSpaceTypeService {
 	@Override
 	@Transactional
 	public void save(Physicalspacetype physicalSpaceType) throws PhysicalSpaceTypeWithoutNameException, PhysicalSpaceTypeWithoutInstitutionException, NoSuchElementException {
-		checkConditions(physicalSpaceType);
 		physicalSpaceTypeDAO.save(physicalSpaceType);
 	}
 
 	@Override
 	@Transactional
 	public void update(Physicalspacetype physicalSpaceType) throws PhysicalSpaceTypeWithoutNameException, PhysicalSpaceTypeWithoutInstitutionException, NoSuchElementException {
-		checkConditions(physicalSpaceType);
 		physicalSpaceTypeDAO.update(physicalSpaceType);
 	}
 

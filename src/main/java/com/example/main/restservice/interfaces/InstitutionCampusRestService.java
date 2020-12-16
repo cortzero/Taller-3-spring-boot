@@ -11,14 +11,14 @@ import com.example.main.model.Institutioncampus;
 
 public interface InstitutionCampusRestService {
 
-public ResponseEntity<String> createCampus(Institutioncampus campus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
+	public ResponseEntity<String> createCampus(Institutioncampus campus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
 	
 	public ResponseEntity<String> updateCampus(long id, Institutioncampus campus) throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException;
 	
 	public ResponseEntity<String> deleteCampus(long id);
 	
-	public ResponseEntity<Institutioncampus> getCampus(long id);
+	public Institutioncampus getCampus(long id);
 	
-	public ResponseEntity<List<Institutioncampus>> getAllCampus();
+	public List<Institutioncampus> getAllCampus();
 	
 }

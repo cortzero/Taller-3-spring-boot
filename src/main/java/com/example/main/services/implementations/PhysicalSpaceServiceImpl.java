@@ -33,14 +33,12 @@ public class PhysicalSpaceServiceImpl implements PhysicalSpaceService {
 	@Override
 	@Transactional
 	public void save(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException {
-		checkConditions(physSp);
 		physicalSpaceDAO.save(physSp);
 	}
 
 	@Override
 	@Transactional
 	public void update(Physicalspace physSp) throws No5DigitsExternalIDException, NoSuchElementException, NumberFormatException {
-		checkConditions(physSp);
 		physicalSpaceDAO.update(physSp);
 	}
 

@@ -19,6 +19,6 @@ public interface InstitutionService {
 	
 	public List<Institution> findAll();
 	
-	public boolean isPresent(Institution institution);
+	public boolean contains(Institution institution);
 
 }

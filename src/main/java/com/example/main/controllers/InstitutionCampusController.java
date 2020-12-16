@@ -14,34 +14,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.main.delegate.interfaces.InstitutionCampusDelegate;
+import com.example.main.delegate.interfaces.InstitutionDelegate;
+import com.example.main.delegate.interfaces.PhysicalSpaceDelegate;
 import com.example.main.exceptions.CampusWithNoZeroOccupationException;
 import com.example.main.exceptions.CampusWithoutNameException;
 import com.example.main.model.Institutioncampus;
 import com.example.main.model.Physicalspace;
-import com.example.main.services.implementations.InstitutionCampusServiceImpl;
-import com.example.main.services.implementations.InstitutionServiceImpl;
-import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
 
 @Controller
 public class InstitutionCampusController {
 
-	private InstitutionCampusServiceImpl campusService;
-	private InstitutionServiceImpl instService;
-	private PhysicalSpaceServiceImpl physicalSpaceService;
+	private InstitutionCampusDelegate campusDelegate;
+	private InstitutionDelegate instDelegate;
+	private PhysicalSpaceDelegate physicalSpaceDelegate;
 	
 	@Autowired
-	public InstitutionCampusController(InstitutionCampusServiceImpl campusService, InstitutionServiceImpl instService,
-			PhysicalSpaceServiceImpl physicalSpaceService) {
-		this.campusService = campusService;
-		this.instService = instService;
-		this.physicalSpaceService = physicalSpaceService;
+	public InstitutionCampusController(InstitutionCampusDelegate campusDelegate, InstitutionDelegate instDelegate,
+			PhysicalSpaceDelegate physicalSpaceDelegate) {
+		this.campusDelegate = campusDelegate;
+		this.instDelegate = instDelegate;
+		this.physicalSpaceDelegate = physicalSpaceDelegate;
 	}
 	
 	@GetMapping("/campus")
 	public String indexCampus(Model model) {
-		model.addAttribute("campusList", campusService.findAll());
+		model.addAttribute("campusList", campusDelegate.getAllCampus());
 		return "campus/index";
 	}
 	
@@ -59,7 +59,7 @@ public class InstitutionCampusController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				model.addAttribute("institutions", instService.findAll());
+				model.addAttribute("institutions", instDelegate.getAllInstitutions());
 				return "campus/add_campus_2";
 			}
 			return "redirect:/campus";
@@ -71,12 +71,12 @@ public class InstitutionCampusController {
 			Model model, @RequestParam(value = "action", required = true) String action) 
 			throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
-			model.addAttribute("institutions", instService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "campus/add_campus_2";
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				campusService.save(institutioncampus);
+				campusDelegate.createCampus(institutioncampus);
 			}
 			return "redirect:/campus";
 		}
@@ -84,7 +84,7 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(id);
+		Institutioncampus institutioncampus = campusDelegate.getCampus(id);
 		if (institutioncampus == null)
 			throw new IllegalArgumentException("Invalid institution campus Id:" + id);
 		model.addAttribute("institutioncampus", institutioncampus);
@@ -99,7 +99,7 @@ public class InstitutionCampusController {
 			return "campus/update_campus_1";
 		}else {
 			if (action != null && !action.equals("Cancel")) {
-				model.addAttribute("institutions", instService.findAll());
+				model.addAttribute("institutions", instDelegate.getAllInstitutions());
 				return "campus/update_campus_2";
 			}
 			return "redirect:/campus/";
@@ -111,12 +111,12 @@ public class InstitutionCampusController {
 			@Validated({SecondGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult, 
 			Model model) throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
-			model.addAttribute("institutions", instService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "campus/update_campus_2";
 		}
 		else {
 			if (action != null && !action.equals("Cancel")) {
-				campusService.update(institutioncampus);
+				campusDelegate.updateCampus(id, institutioncampus);;
 			}
 			return "redirect:/campus/";
 		}
@@ -124,23 +124,22 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus/del/{id}")
 	public String deleteCampus(@PathVariable("id") long id, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(id);
-		campusService.delete(institutioncampus);
-		model.addAttribute("institutioncampus", campusService.findAll());
+		campusDelegate.deleteCampus(id);
+		model.addAttribute("institutioncampus", campusDelegate.getAllCampus());
 		return "campus/index";
 	}
 	
 	@GetMapping("/campus/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(id);
+		Institutioncampus institutioncampus = campusDelegate.getCampus(id);
 		model.addAttribute("institutioncampus", institutioncampus);
 		return "campus/show_info";
 	}
 	
 	@GetMapping("/campus/info/{campusid}/physicalspace/{physpid}")
 	public String showInformationFromPhysicalSpace(@PathVariable("campusid") long campusid, @PathVariable("physpid") long physpid, Model model) {
-		Institutioncampus institutioncampus = campusService.findById(campusid);
-		Physicalspace physicalspace = physicalSpaceService.findById(physpid);
+		Institutioncampus institutioncampus = campusDelegate.getCampus(campusid);
+		Physicalspace physicalspace = physicalSpaceDelegate.getPhysicalSpace(physpid);
 		model.addAttribute("institutioncampus", institutioncampus);
 		model.addAttribute("physicalspace", physicalspace);
 		return "campus/show_info";

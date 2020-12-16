@@ -52,7 +52,7 @@ public class InstitutionDAOImpl implements InstitutionDAO {
 
 	@Override
 	@Transactional(readOnly = true)
-	public boolean isPresent(Institution institution) {
+	public boolean contains(Institution institution) {
 		return entityManager.contains(institution);
 	}
 

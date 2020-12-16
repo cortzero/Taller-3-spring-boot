@@ -14,33 +14,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.main.delegate.interfaces.InstitutionDelegate;
+import com.example.main.delegate.interfaces.PhysicalSpaceDelegate;
+import com.example.main.delegate.interfaces.PhysicalSpaceTypeDelegate;
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutInstitutionException;
 import com.example.main.exceptions.PhysicalSpaceTypeWithoutNameException;
 import com.example.main.model.Physicalspace;
 import com.example.main.model.Physicalspacetype;
-import com.example.main.services.implementations.InstitutionServiceImpl;
-import com.example.main.services.implementations.PhysicalSpaceServiceImpl;
-import com.example.main.services.implementations.PhysicalSpaceTypeServiceImpl;
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
 
 @Controller
 public class PhysicalSpaceTypeController {
 
-	private PhysicalSpaceTypeServiceImpl phySpTypeService;
-	private InstitutionServiceImpl instService;
-	private PhysicalSpaceServiceImpl physicalSpaceService;
+	private PhysicalSpaceTypeDelegate phySpTypeDelegate;
+	private InstitutionDelegate instDelegate;
+	private PhysicalSpaceDelegate physicalSpaceDelegate;
 	
 	@Autowired
-	public PhysicalSpaceTypeController(PhysicalSpaceTypeServiceImpl phySpTypeService, InstitutionServiceImpl instService, PhysicalSpaceServiceImpl physicalSpaceService) {
-		this.phySpTypeService = phySpTypeService;
-		this.instService = instService;
-		this.physicalSpaceService = physicalSpaceService;
+	public PhysicalSpaceTypeController(PhysicalSpaceTypeDelegate phySpTypeDelegate, InstitutionDelegate instDelegate, 
+			PhysicalSpaceDelegate physicalSpaceDelegate) {
+		this.phySpTypeDelegate = phySpTypeDelegate;
+		this.instDelegate = instDelegate;
+		this.physicalSpaceDelegate = physicalSpaceDelegate;
 	}
 	
 	@GetMapping("/physicalSpaceTypes")
 	public String indexPhysicalSpaceTypes(Model model) {
-		model.addAttribute("physicalSpaceTypes", phySpTypeService.findAll());
+		model.addAttribute("physicalSpaceTypes", phySpTypeDelegate.getAllPhysicalSpaceTypes());
 		return "physicalSpaceTypes/index";
 	}
 	
@@ -58,7 +59,7 @@ public class PhysicalSpaceTypeController {
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				model.addAttribute("institutions", instService.findAll());
+				model.addAttribute("institutions", instDelegate.getAllInstitutions());
 				return "physicalSpaceTypes/add_phySpaType_2";
 			}
 			return "redirect:/physicalSpaceTypes";
@@ -70,12 +71,12 @@ public class PhysicalSpaceTypeController {
 			BindingResult bindingResult, Model model, @RequestParam(value = "action", required = true) String action)
 			throws NoSuchElementException, PhysicalSpaceTypeWithoutNameException, PhysicalSpaceTypeWithoutInstitutionException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
-			model.addAttribute("institutions", instService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "physicalSpaceTypes/add_phySpaType_2";
 		}
 		else {
 			if(!action.equals("Cancel")) {
-				phySpTypeService.save(physicalspacetype);
+				phySpTypeDelegate.createPhysicalSpaceType(physicalspacetype);
 			}
 			return "redirect:/physicalSpaceTypes";
 		}
@@ -83,7 +84,7 @@ public class PhysicalSpaceTypeController {
 	
 	@GetMapping("/physicalSpaceTypes/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
+		Physicalspacetype physicalspacetype = phySpTypeDelegate.getPhysicalSpaceType(id);
 		if (physicalspacetype == null)
 			throw new IllegalArgumentException("Invalid physical space type Id:" + id);
 		model.addAttribute("physicalspacetype", physicalspacetype);
@@ -98,7 +99,7 @@ public class PhysicalSpaceTypeController {
 			return "physicalSpaceTypes/update_phySpaType_1";
 		}else {
 			if (action != null && !action.equals("Cancel")) {
-				model.addAttribute("institutions", instService.findAll());
+				model.addAttribute("institutions", instDelegate.getAllInstitutions());
 				return "physicalSpaceTypes/update_phySpaType_2";
 			}
 			return "redirect:/physicalSpaceTypes/";
@@ -110,11 +111,11 @@ public class PhysicalSpaceTypeController {
 			@Validated({SecondGroup.class, Default.class}) Physicalspacetype physicalspacetype, BindingResult bindingResult, 
 			Model model) throws NoSuchElementException, PhysicalSpaceTypeWithoutNameException, PhysicalSpaceTypeWithoutInstitutionException {
 		if(bindingResult.hasErrors() && !action.equals("Cancel")) {
-			model.addAttribute("institutions", instService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "physicalSpaceTypes/update_phySpaType_2";
 		}else {
 			if (action != null && !action.equals("Cancel")) {
-				phySpTypeService.update(physicalspacetype);
+				phySpTypeDelegate.updatePhysicalSpaceType(id, physicalspacetype);
 			}
 			return "redirect:/physicalSpaceTypes/";
 		}
@@ -122,23 +123,22 @@ public class PhysicalSpaceTypeController {
 	
 	@GetMapping("/physicalSpaceTypes/del/{id}")
 	public String deletePhysicalSpaceType(@PathVariable("id") long id, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
-		phySpTypeService.delete(physicalspacetype);
-		model.addAttribute("physicalSpaceTypes", phySpTypeService.findAll());
+		phySpTypeDelegate.deletePhysicalSpaceType(id);
+		model.addAttribute("physicalSpaceTypes", phySpTypeDelegate.getAllPhysicalSpaceTypes());
 		return "physicalSpaceTypes/index";
 	}
 	
 	@GetMapping("/physicalSpaceTypes/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(id);
+		Physicalspacetype physicalspacetype = phySpTypeDelegate.getPhysicalSpaceType(id);
 		model.addAttribute("physicalspacetype", physicalspacetype);
 		return "physicalSpaceTypes/show_info";
 	}
 	
 	@GetMapping("/physicalSpaceTypes/info/{physpatyid}/physicalspace/{physpid}")
 	public String showInformationFromPhysicalSpace(@PathVariable("physpatyid") long physpatyid, @PathVariable("physpid") long physpid, Model model) {
-		Physicalspacetype physicalspacetype = phySpTypeService.findById(physpatyid);
-		Physicalspace physicalspace = physicalSpaceService.findById(physpid);
+		Physicalspacetype physicalspacetype = phySpTypeDelegate.getPhysicalSpaceType(physpid);
+		Physicalspace physicalspace = physicalSpaceDelegate.getPhysicalSpace(physpid);
 		model.addAttribute("physicalspacetype", physicalspacetype);
 		model.addAttribute("physicalspace", physicalspace);
 		return "physicalSpaceTypes/show_info";

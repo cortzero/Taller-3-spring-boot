@@ -9,7 +9,7 @@ public interface CommunityinstanceService {
 	
 	public void save(Communityinstance communityinstance);
 	
-	public void edit(Communityinstance communityinstance);
+	public void update(Communityinstance communityinstance);
 		
 	public void delete(Communityinstance communityinstance);
 	
@@ -18,5 +18,7 @@ public interface CommunityinstanceService {
 	public List<Communityinstance> findByDateRange(Date startDate, Date endDate);
 	
 	public List<Communityinstance> findAll();
+	
+	public boolean contains(Communityinstance communityinstance);
 
 }

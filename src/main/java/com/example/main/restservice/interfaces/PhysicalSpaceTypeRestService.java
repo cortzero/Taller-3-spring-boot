@@ -17,8 +17,12 @@ public interface PhysicalSpaceTypeRestService {
 	
 	public ResponseEntity<String> deletePhysicalSpaceType(long id);
 	
-	public ResponseEntity<Physicalspacetype> getPhysicalSpaceType(long id);
+	public Physicalspacetype getPhysicalSpaceType(long id);
 	
-	public ResponseEntity<List<Physicalspacetype>> getAllPhysicalSpaceTypes();
+	public List<Physicalspacetype> getAllPhysicalSpaceTypes();
+	
+	public List<Physicalspacetype> findByName(String name);
+	
+	public List<Physicalspacetype> findByExtId(String extId);
 
 }

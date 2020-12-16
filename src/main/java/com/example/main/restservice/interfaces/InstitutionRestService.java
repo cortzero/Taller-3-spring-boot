@@ -16,8 +16,8 @@ public interface InstitutionRestService {
 	
 	public ResponseEntity<String> deleteInstitution(long id);
 	
-	public ResponseEntity<Institution> getInstitution(long id);
+	public Institution getInstitution(long id);
 	
-	public ResponseEntity<List<Institution>> getAllInstitutions();
+	public List<Institution> getAllInstitutions();
 
 }
