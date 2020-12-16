@@ -30,7 +30,7 @@ public class InstitutionRestServiceImpl implements InstitutionRestService {
 
 	@Override
 	@PostMapping("/create")
-	public ResponseEntity<String> createIntitution(@RequestBody Institution institution)
+	public @ResponseBody ResponseEntity<String> createIntitution(@RequestBody Institution institution)
 			throws URLWithoutProtocolException, InstitutionWithoutNameException {
 		institutionService.save(institution);
 		if(institutionService.contains(institution)) {
@@ -41,7 +41,7 @@ public class InstitutionRestServiceImpl implements InstitutionRestService {
 
 	@Override
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateInstitution(@PathVariable("id") long id, @RequestBody Institution institution)
+	public @ResponseBody ResponseEntity<String> updateInstitution(@PathVariable("id") long id, @RequestBody Institution institution)
 			throws URLWithoutProtocolException, InstitutionWithoutNameException {		
 		institutionService.update(institution);
 		return new ResponseEntity<String>(HttpStatus.OK);
@@ -49,7 +49,7 @@ public class InstitutionRestServiceImpl implements InstitutionRestService {
 
 	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteInstitution(@PathVariable("id") long id) {
+	public @ResponseBody ResponseEntity<String> deleteInstitution(@PathVariable("id") long id) {
 		institutionService.delete(institutionService.findById(id));
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

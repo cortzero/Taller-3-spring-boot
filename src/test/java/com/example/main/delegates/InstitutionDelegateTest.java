@@ -10,9 +10,11 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.example.main.delegate.implementations.InstitutionDelegateImpl;
 import com.example.main.delegate.interfaces.InstitutionDelegate;
 import com.example.main.model.Institution;
 
@@ -22,6 +24,7 @@ import com.example.main.model.Institution;
 @TestMethodOrder(OrderAnnotation.class)
 public class InstitutionDelegateTest {
 	
+//	private InstitutionDelegate instDelegate = new InstitutionDelegateImpl(new RestTemplateBuilder());
 	@Autowired
 	private InstitutionDelegate instDelegate;
 	
