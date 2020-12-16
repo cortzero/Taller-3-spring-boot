@@ -4,6 +4,13 @@ package com.example.main.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
+
+import com.example.main.validation.FirstGroup;
+import com.example.main.validation.SecondGroup;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -25,18 +32,26 @@ public class HatCapacitydetail implements Serializable {
 	private long capId;
 
 	@Column(name="CAP_CAPACITY")
+	@NotBlank(groups = SecondGroup.class)
+	@NotNull(groups = SecondGroup.class)
 	private BigDecimal capCapacity;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CAP_MODDATE")
+	@NotBlank(groups = SecondGroup.class)
+	@NotNull(groups = SecondGroup.class)
+	@PastOrPresent(groups = SecondGroup.class)
 	private Date capModdate;
 
 	@Column(name="CAP_PERCENT")
+	@NotBlank(groups = SecondGroup.class)
+	@NotNull(groups = SecondGroup.class)
 	private BigDecimal capPercent;
 
 	//bi-directional many-to-one association to Institutioncampus
 	@ManyToOne
 	@JoinColumn(name="INSTCAM_INSTCAM_ID")
+	@NotNull(groups = FirstGroup.class)
 	private Institutioncampus institutioncampus;
 
 	//bi-directional many-to-one association to Physicalspace
