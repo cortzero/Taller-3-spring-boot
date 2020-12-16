@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.main.delegate.interfaces.HatParameterDelegate;
+import com.example.main.delegate.interfaces.InstitutionDelegate;
 import com.example.main.model.HatParameter;
 import com.example.main.services.implementations.HatParameterServiceImpl;
 import com.example.main.services.implementations.InstitutionServiceImpl;
@@ -21,28 +23,28 @@ import javax.validation.groups.Default;
 @Controller
 public class HatParameterController {
 
-	private InstitutionServiceImpl institutionService;
-	private HatParameterServiceImpl hatParameterService;
+	private InstitutionDelegate instDelegate;
+	private HatParameterDelegate hatParameterDelegate;
 
 	@Autowired
-	public HatParameterController(InstitutionServiceImpl institutionService,
-			HatParameterServiceImpl hatParameterService) {
+	public HatParameterController(InstitutionDelegate instDelegate,
+			HatParameterDelegate hatParameterDelegate) {
 
-		this.institutionService = institutionService;
-		this.hatParameterService = hatParameterService;
+		this.instDelegate = instDelegate;
+		this.hatParameterDelegate = hatParameterDelegate;
 
 	}
 
-	@GetMapping("/hatParameters")
+	@GetMapping("/hatParameters/")
 	public String indexHatParameters(Model model) {
-		model.addAttribute("hatparameters", hatParameterService.findAll());
+		model.addAttribute("hatparameters", hatParameterDelegate.getAllHatParameters());
 		return "hatParameters/index";
 	}
 
 	@GetMapping("/hatParameters/add")
 	public String showSaveHatParameter(Model model) {
 		model.addAttribute("hatparameter", new HatParameter());
-		model.addAttribute("institutions", institutionService.findAll());
+		model.addAttribute("institutions", instDelegate.getAllInstitutions());
 
 		return "hatParameters/add_hatParameter_1";
 	}
@@ -55,7 +57,7 @@ public class HatParameterController {
 			return "hatParameters/add_hatParameter_1";
 		} else {
 			if (!action.equals("Cancel")) {
-				model.addAttribute("institutions", institutionService.findAll());
+				model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			}
 			return "hatParameters/add_hatParameter_2";
 		}
@@ -66,11 +68,11 @@ public class HatParameterController {
 			@Validated({ SecondGroup.class, Default.class }) @ModelAttribute("hatparameter") HatParameter hatparameter,
 			BindingResult bindingResult, Model model, @RequestParam(value = "action", required = true) String action) {
 		if (bindingResult.hasErrors() && !(action.equals("Cancel"))) {
-			model.addAttribute("institutions", institutionService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "hatParameters/add_hatParameter_2";
 		} else {
 			if (!action.equals("Cancel")) {
-				hatParameterService.save(hatparameter);
+				hatParameterDelegate.createHatParameter(hatparameter);
 			}
 		}
 		return "redirect:/hatParameters/";
@@ -78,27 +80,27 @@ public class HatParameterController {
 
 	@GetMapping("/hatParameters/edit/{id}")
 	public String showUpdateForm(@PathVariable("id") long id, Model model) {
-		HatParameter hatParameter = hatParameterService.findById(id);
+		HatParameter hatParameter = hatParameterDelegate.getHatParameter(id);
 		if (hatParameter == null)
 			throw new IllegalArgumentException("Invalid Hat Parameter Id:" + id);
 		model.addAttribute("hatparameter", hatParameter);
-		model.addAttribute("institutions", institutionService.findAll());
+		model.addAttribute("institutions", instDelegate.getAllInstitutions());
 		return "hatParameters/update_hatParameter";
 	}
 
 	@PostMapping("/hatParameters/edit/{id}")
-	public String updateHatParameter(@PathVariable("id") long id,
+	public String updateHatParameter(@PathVariable("id") Long id,
 			@RequestParam(value = "action", required = true) String action,
 			@Validated @ModelAttribute("hatparameter") HatParameter hatparameter, BindingResult bindingResult,
 			Model model) {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("institutions", institutionService.findAll());
+			model.addAttribute("institutions", instDelegate.getAllInstitutions());
 			return "hatParameters/update_hatParameter";
 		} else {
 			if (action != null && !action.equals("Cancel")) {
-				hatParameterService.update(hatparameter);
-				model.addAttribute("hatparameters", hatParameterService.findAll());
+				hatParameterDelegate.updateHatParameter(id, hatparameter);
+				model.addAttribute("hatparameters", hatParameterDelegate.getAllHatParameters());
 			}
 			return "redirect:/hatParameters/";
 		}
@@ -107,15 +109,14 @@ public class HatParameterController {
 
 	@GetMapping("/hatParameters/del/{id}")
 	public String deleteHatParameter(@PathVariable("id") long id, Model model) {
-		HatParameter hatParameter = hatParameterService.findById(id);
-		hatParameterService.delete(hatParameter);
-		model.addAttribute("hatparameters", hatParameterService.findAll());
+		hatParameterDelegate.deleteHatParameter(id);
+		model.addAttribute("hatparameters", hatParameterDelegate.getAllHatParameters());
 		return "hatParameters/index";
 	}
 
 	@GetMapping("/hatParameters/info/{id}")
 	public String showInformation(@PathVariable("id") long id, Model model) {
-		HatParameter hatParameter = hatParameterService.findById(id);
+		HatParameter hatParameter = hatParameterDelegate.getHatParameter(id);
 		model.addAttribute("hatparameter", hatParameter);
 		return "hatParameters/show_info";
 	}

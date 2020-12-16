@@ -15,6 +15,8 @@ public void save(HatCapacitydetail hatCapacitydetail);
 	public HatCapacitydetail findById(long id);
 	
 	public List<HatCapacitydetail> findAll();
+
+	public boolean contains(HatCapacitydetail capacity);
 	
 
 }

@@ -26,7 +26,7 @@ import com.example.main.model.Institutioncampus;
 @Component
 public class InstitutionCampusDelegateImpl implements InstitutionCampusDelegate {
 	
-	private static String URL = "http://localhost:8080/rest/campus/";
+	private static String URL = "http://localhost:8081/rest/campus/";
 	
     private RestTemplate restTemplate;
 

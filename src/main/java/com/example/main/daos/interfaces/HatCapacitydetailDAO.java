@@ -16,4 +16,6 @@ public interface HatCapacitydetailDAO {
 
 	public List<HatCapacitydetail> findAll();
 
+	public boolean contains(Object capaci);
+
 }

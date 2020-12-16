@@ -50,6 +50,11 @@ public class HatCapacitydetailDAOImpl implements HatCapacitydetailDAO{
 		String jpql = "SELECT h FROM HatCapacitydetail h";
 		return entityManager.createQuery(jpql).getResultList();
 	}
+
+	@Override
+	public boolean contains(Object capaci) {
+		return entityManager.contains(capaci);
+	}
 	
 	
 

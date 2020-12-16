@@ -15,5 +15,7 @@ public interface HatParameterDAO {
 	public HatParameter findById(long id);
 
 	public List<HatParameter> findAll();
+	
+	public boolean contains(HatParameter hatParameter);
 
 }

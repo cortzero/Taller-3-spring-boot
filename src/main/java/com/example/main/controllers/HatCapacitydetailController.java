@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.main.delegate.interfaces.HatCapacityDelegate;
+import com.example.main.delegate.interfaces.InstitutionCampusDelegate;
 import com.example.main.model.HatCapacitydetail;
 import com.example.main.services.interfaces.HatCapacitydetailService;
 import com.example.main.services.interfaces.InstitutionCampusService;
@@ -21,19 +23,19 @@ import com.example.main.validation.SecondGroup;
 @Controller
 public class HatCapacitydetailController {
 
-	private HatCapacitydetailService hatCapacitydetailService;
-	private InstitutionCampusService instCampusService;
+	private HatCapacityDelegate hatCapacityDelegate;
+	private InstitutionCampusDelegate instCampusDelegate;
 
 	@Autowired
-	public HatCapacitydetailController(HatCapacitydetailService hatCapacitydetailService,
-			InstitutionCampusService instCampusService) {
-		this.hatCapacitydetailService = hatCapacitydetailService;
-		this.instCampusService = instCampusService;
+	public HatCapacitydetailController(HatCapacityDelegate hatCapacityDelegate,
+			InstitutionCampusDelegate instCampusDelegate) {
+		this.hatCapacityDelegate = hatCapacityDelegate;
+		this.instCampusDelegate = instCampusDelegate;
 	}
 
 	@GetMapping("/campusCapacities")
 	public String indexCampusCapacities(Model model) {
-		model.addAttribute("campuscapacities", hatCapacitydetailService.findAll());
+		model.addAttribute("campuscapacities", hatCapacityDelegate.getAllCapacities());
 		return "campusCapacities/index";
 	}
 
@@ -53,7 +55,7 @@ public class HatCapacitydetailController {
 			return "campusCapacities/add_campusCapacity_1";
 		} else {
 			if (!action.equals("Cancel")) {
-				model.addAttribute("institutioncampuses", instCampusService.findAll());
+				model.addAttribute("institutioncampuses", instCampusDelegate.getAllCampus());
 				return "campusCapacities/add_campusCapacity_2";
 			}
 			return "redirect:/campusCapacities";
@@ -67,11 +69,11 @@ public class HatCapacitydetailController {
 					Default.class }) @ModelAttribute("campuscapacity") HatCapacitydetail campuscapacity,
 			BindingResult bindingResult, Model model, @RequestParam(value = "action", required = true) String action) {
 		if (bindingResult.hasErrors() && !action.equals("Cancel")) {
-			model.addAttribute("institutioncampuses", instCampusService.findAll());
+			model.addAttribute("institutioncampuses", instCampusDelegate.getAllCampus());
 			return "campusCapacities/add_campusCapacity_2";
 		} else {
 			if (!action.equals("Cancel")) {
-				hatCapacitydetailService.save(campuscapacity);
+				hatCapacityDelegate.createCapacity(campuscapacity);
 			}
 			return "redirect:/campusCapacities/";
 		}

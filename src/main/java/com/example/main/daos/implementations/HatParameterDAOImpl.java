@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.main.daos.interfaces.HatParameterDAO;
 import com.example.main.model.HatParameter;
+import com.example.main.model.Institution;
 
 @Repository
 @Scope("singleton")
@@ -48,6 +49,11 @@ public class HatParameterDAOImpl implements HatParameterDAO {
 	public List<HatParameter> findAll() {
 		String jpql = "SELECT h FROM HatParameter h";
 		return entityManager.createQuery(jpql).getResultList();
+	}
+	
+	@Override
+	public boolean contains(HatParameter hatParameter) {
+		return entityManager.contains(hatParameter);
 	}
 
 }

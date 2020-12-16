@@ -26,7 +26,7 @@ import com.example.main.model.Communityinstance;
 @Component
 public class CommunityInstanceDelegateImpl implements CommunityInstanceDelegate {
 	
-	private static String URL = "http://localhost:8080/rest/communities/";
+	private static String URL = "http://localhost:8081/rest/communities/";
 	
     private RestTemplate restTemplate;
     

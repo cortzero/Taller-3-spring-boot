@@ -46,4 +46,9 @@ public class HatCapacitydetailServiceImpl implements HatCapacitydetailService {
 		return hatCapacitydetailDAO.findAll();
 	}
 
+	@Override
+	public boolean contains(HatCapacitydetail capacity) {
+		return hatCapacitydetailDAO.contains(capacity);
+	}
+
 }

@@ -26,7 +26,7 @@ import com.example.main.model.Physicalspace;
 @Component
 public class PhysicalSpaceDelegateImpl implements PhysicalSpaceDelegate {
 
-	private static String URL = "http://localhost:8080/rest/physicalspace/";
+	private static String URL = "http://localhost:8081/rest/physicalspace/";
 	
     private RestTemplate restTemplate;
 

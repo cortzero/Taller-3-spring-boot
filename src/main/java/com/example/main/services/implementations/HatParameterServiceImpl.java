@@ -16,18 +16,15 @@ import com.example.main.services.interfaces.InstitutionService;
 public class HatParameterServiceImpl implements HatParamaterService {
 
 	private HatParameterDAO hatParameterDAO;
-	private InstitutionService institutionService;
 
 	@Autowired
-	public HatParameterServiceImpl(HatParameterDAO hatParameterDAO, InstitutionService institutionService) {
+	public HatParameterServiceImpl(HatParameterDAO hatParameterDAO) {
 		this.hatParameterDAO = hatParameterDAO;
-		this.institutionService = institutionService;
 	}
 
 	@Override
 	public void save(HatParameter hatParameter) {
 		
-		if(institutionService.isPresent(hatParameter.getInstitution()))
 		hatParameterDAO.save(hatParameter);
 		
 	}
@@ -35,7 +32,6 @@ public class HatParameterServiceImpl implements HatParamaterService {
 	@Override
 	public void update(HatParameter hatParameter) {
 
-		if(institutionService.isPresent(hatParameter.getInstitution()))
 		hatParameterDAO.update(hatParameter);
 
 	}
@@ -57,6 +53,11 @@ public class HatParameterServiceImpl implements HatParamaterService {
 	public List<HatParameter> findAll() {
 
 		return hatParameterDAO.findAll();
+	}
+
+	@Override
+	public boolean contains(HatParameter hatParameter) {
+		return hatParameterDAO.contains(hatParameter);
 	}
 
 }

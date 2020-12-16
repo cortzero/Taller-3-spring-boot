@@ -16,4 +16,7 @@ public void save(HatParameter hatParameter);
 	
 	public List<HatParameter> findAll();
 
+	public boolean contains(HatParameter hatParameter);
+
+
 }

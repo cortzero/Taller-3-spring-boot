@@ -1,6 +1,7 @@
 package com.example.main;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,9 +10,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.main.exceptions.CampusWithNoZeroOccupationException;
+import com.example.main.exceptions.CampusWithoutNameException;
 import com.example.main.exceptions.InstitutionWithoutNameException;
 import com.example.main.exceptions.URLWithoutProtocolException;
 import com.example.main.model.Institution;
+import com.example.main.model.Institutioncampus;
 import com.example.main.model.Person;
 import com.example.main.model.PersonRole;
 import com.example.main.model.PersonRolePK;
@@ -21,6 +25,7 @@ import com.example.main.repositories.PersonRepository;
 import com.example.main.repositories.PersonRoleRepository;
 import com.example.main.repositories.RoleeRepository;
 import com.example.main.repositories.UserrRepository;
+import com.example.main.services.implementations.InstitutionCampusServiceImpl;
 import com.example.main.services.implementations.InstitutionServiceImpl;
 
 @SpringBootApplication(scanBasePackages = "com.example")
@@ -30,6 +35,8 @@ public class Taller3JohanCortesApplication {
 
 		ConfigurableApplicationContext c = SpringApplication.run(Taller3JohanCortesApplication.class, args);
 		InstitutionServiceImpl i = c.getBean(InstitutionServiceImpl.class);
+		InstitutionCampusServiceImpl ic = c.getBean(InstitutionCampusServiceImpl.class);
+		
 		Institution inst1 = new Institution();
 		inst1.setInstName("Icesi");
 		inst1.setInstAcademicserverurl("https://banner.icesi.edu.co");
@@ -101,6 +108,16 @@ public class Taller3JohanCortesApplication {
 		try {
 			i.save(inst3);
 		} catch (URLWithoutProtocolException | InstitutionWithoutNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Institutioncampus ic1 = new Institutioncampus();
+		ic1.setInstcamName("Campus Universidad Icesi");
+		ic1.setInstitution(inst1);
+		try {
+			ic.save(ic1);
+		} catch (NoSuchElementException | CampusWithoutNameException | CampusWithNoZeroOccupationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
