@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
@@ -17,6 +19,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name = "Institution.findAll", query = "SELECT i FROM Institution i")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Institution implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -111,6 +114,7 @@ public class Institution implements Serializable {
 
 	// bi-directional many-to-one association to Institutioncampus
 	@OneToMany(mappedBy = "institution")
+	@JsonIgnore
 	private List<Institutioncampus> institutioncampuses;
 
 	// bi-directional many-to-one association to Measurement

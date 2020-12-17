@@ -33,7 +33,6 @@ public class InstitutionCampusRestServiceImpl implements InstitutionCampusRestSe
 	@PostMapping("/create")
 	public @ResponseBody ResponseEntity<String> createCampus(@RequestBody Institutioncampus campus)
 			throws CampusWithoutNameException, CampusWithNoZeroOccupationException, NoSuchElementException {
-		int size = campusService.findAll().size();
 		campusService.save(campus);
 		if(campusService.contains(campus)) {
 			return new ResponseEntity<String>(HttpStatus.CREATED);

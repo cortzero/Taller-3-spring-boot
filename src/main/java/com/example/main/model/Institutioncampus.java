@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Institutioncampus.findAll", query="SELECT i FROM Institutioncampus i")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Institutioncampus implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +38,7 @@ public class Institutioncampus implements Serializable {
 	@Column(name="INSTCAM_OCCUPATION")
 	@DecimalMin(value = "0.0", message = "Occupation must be 0", groups = FirstGroup.class)	//Creación
 	@DecimalMax(value = "0.0", message = "Occupation must be 0", groups = FirstGroup.class)
-	@DecimalMin(value = "0.0", message = "Occupation must be 0", groups = SecondGroup.class)	//Edición
+	@DecimalMin(value = "0.0", message = "Occupation must be 0", groups = SecondGroup.class) //Edición
 	@DecimalMax(value = "0.0", message = "Occupation must be 0", groups = SecondGroup.class)
 	private BigDecimal instcamOccupation;
 

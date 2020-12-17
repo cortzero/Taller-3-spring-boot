@@ -1,5 +1,6 @@
 package com.example.main.controllers;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import javax.validation.groups.Default;
@@ -41,7 +42,8 @@ public class InstitutionCampusController {
 	
 	@GetMapping("/campus")
 	public String indexCampus(Model model) {
-		model.addAttribute("campusList", campusDelegate.getAllCampus());
+		List<Institutioncampus> campusList = campusDelegate.getAllCampus();
+		model.addAttribute("campusList", campusList);
 		return "campus/index";
 	}
 	
@@ -82,8 +84,8 @@ public class InstitutionCampusController {
 		}
 	}
 	
-	@GetMapping("/campus/edit/{id}")
-	public String showUpdateForm(@PathVariable("id") long id, Model model) {
+	@GetMapping("/campus/edit1/{id}")
+	public String showUpdateForm1(@PathVariable("id") long id, Model model) {
 		Institutioncampus institutioncampus = campusDelegate.getCampus(id);
 		if (institutioncampus == null)
 			throw new IllegalArgumentException("Invalid institution campus Id:" + id);
@@ -91,7 +93,7 @@ public class InstitutionCampusController {
 		return "campus/update_campus_1";
 	}
 
-	@PostMapping("/campus/edit/{id}")
+	@PostMapping("/campus/edit1-post/{id}")
 	public String updateCampus1(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({FirstGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult, 
 			Model model) {
@@ -106,7 +108,7 @@ public class InstitutionCampusController {
 		}
 	}
 	
-	@PostMapping("/campus/edit1/{id}")
+	@PostMapping("/campus/edit2-post/{id}")
 	public String updateCampus2(@PathVariable("id") long id, @RequestParam(value = "action", required = true) String action, 
 			@Validated({SecondGroup.class, Default.class}) Institutioncampus institutioncampus, BindingResult bindingResult, 
 			Model model) throws NoSuchElementException, CampusWithoutNameException, CampusWithNoZeroOccupationException {
@@ -125,7 +127,8 @@ public class InstitutionCampusController {
 	@GetMapping("/campus/del/{id}")
 	public String deleteCampus(@PathVariable("id") long id, Model model) {
 		campusDelegate.deleteCampus(id);
-		model.addAttribute("institutioncampus", campusDelegate.getAllCampus());
+		List<Institutioncampus> campusList = campusDelegate.getAllCampus();
+		model.addAttribute("institutioncampus", campusList);
 		return "campus/index";
 	}
 	
