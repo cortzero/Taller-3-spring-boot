@@ -141,7 +141,7 @@ public class PhysicalSpaceController {
 		return "physicalSpaces/show_info";
 	}
 
-	@GetMapping("/query1")
+	@GetMapping("/physicalSpaces/startDate={sDay}?{sMonth}?{sYear}&endDate={eDay}?{eMonth}?{eYear}")
 	public String findPhysicalSpacesWithADateRange(Model model, @PathVariable("sDay") int sDay,
 			@PathVariable("sMonth") int sMonth, @PathVariable("sYear") int sYear, @PathVariable("eDay") int eDay,
 			@PathVariable("eMonth") int eMonth, @PathVariable("eYear") int eYear) {
