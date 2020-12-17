@@ -59,6 +59,7 @@ public class Institutioncampus implements Serializable {
 
 	//bi-directional many-to-one association to Physicalspace
 	@OneToMany(mappedBy="institutioncampus")
+	@JsonIgnore
 	private List<Physicalspace> physicalspaces;
 
 	//bi-directional many-to-one association to Visit

@@ -8,6 +8,7 @@ import javax.validation.constraints.Pattern;
 
 import com.example.main.validation.FirstGroup;
 import com.example.main.validation.SecondGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class Physicalspacetype implements Serializable {
 
 	//bi-directional many-to-one association to Physicalspace
 	@OneToMany(mappedBy="physicalspacetype")
+	@JsonIgnore
 	private List<Physicalspace> physicalspaces;
 
 	//bi-directional many-to-one association to Institution

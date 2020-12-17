@@ -128,6 +128,7 @@ public class Institution implements Serializable {
 
 	// bi-directional many-to-one association to Physicalspacetype
 	@OneToMany(mappedBy = "institution")
+	@JsonIgnore
 	private List<Physicalspacetype> physicalspacetypes;
 
 	// bi-directional many-to-one association to Posessiontype
