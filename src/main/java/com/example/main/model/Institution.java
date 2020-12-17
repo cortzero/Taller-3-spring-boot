@@ -110,6 +110,7 @@ public class Institution implements Serializable {
 
 	// bi-directional many-to-one association to HatParameter
 	@OneToMany(mappedBy = "institution")
+	@JsonIgnore
 	private List<HatParameter> hatParameters;
 
 	// bi-directional many-to-one association to Institutioncampus

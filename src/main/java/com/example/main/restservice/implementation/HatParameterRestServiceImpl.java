@@ -1,6 +1,7 @@
 package com.example.main.restservice.implementation;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,13 @@ public class HatParameterRestServiceImpl implements HatParameterRestService {
 
 	@Autowired
 	private HatParamaterService hatParameterService;
-	
-	
+
 	@Override
 	@PostMapping("/create")
-	public @ResponseBody ResponseEntity<String> createHatParameter(@RequestBody HatParameter hatParameter) {
+	public @ResponseBody ResponseEntity<String> createHatParameter(@RequestBody HatParameter hatParameter)
+			throws NoSuchElementException {
 		hatParameterService.save(hatParameter);
-		int size = hatParameterService.findAll().size();
-		if(hatParameterService.findAll().size() == size +1) {
+		if (hatParameterService.contains(hatParameter)) {
 			return new ResponseEntity<String>(HttpStatus.CREATED);
 		}
 		return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
@@ -40,7 +40,8 @@ public class HatParameterRestServiceImpl implements HatParameterRestService {
 
 	@Override
 	@PutMapping("/{id}")
-	public @ResponseBody ResponseEntity<String> updateHatParameter(@PathVariable("id") long id, @RequestBody HatParameter hatParameter) {
+	public @ResponseBody ResponseEntity<String> updateHatParameter(@PathVariable("id") long id,
+			@RequestBody HatParameter hatParameter) throws NoSuchElementException {
 		hatParameterService.update(hatParameter);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

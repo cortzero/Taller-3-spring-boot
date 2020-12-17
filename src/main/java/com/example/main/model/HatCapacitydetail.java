@@ -32,19 +32,16 @@ public class HatCapacitydetail implements Serializable {
 	private long capId;
 
 	@Column(name="CAP_CAPACITY")
-	@NotBlank(groups = SecondGroup.class)
 	@NotNull(groups = SecondGroup.class)
 	private BigDecimal capCapacity;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="CAP_MODDATE")
-	@NotBlank(groups = SecondGroup.class)
 	@NotNull(groups = SecondGroup.class)
 	@PastOrPresent(groups = SecondGroup.class)
 	private Date capModdate;
 
 	@Column(name="CAP_PERCENT")
-	@NotBlank(groups = SecondGroup.class)
 	@NotNull(groups = SecondGroup.class)
 	private BigDecimal capPercent;
 

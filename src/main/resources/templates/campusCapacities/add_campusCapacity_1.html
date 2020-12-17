@@ -26,14 +26,13 @@
 						<div class="form-group col-md-6">
 							<label for="institutioncampus" class="col-form-label">Campus</label>
 							<select th:field="*{institutioncampus}">
-								<option th:each="institutioncampus : ${institutionscampuses}"
-									th:value="${institutioncampus.instcamId}" class="form-control"
-									th:text="${institutioncampus.instcamName}"
-									th:selected="${campuscapacity.institutioncampus=institutioncampus}"></option>
+								<option th:each="campus : ${institutioncampuses}"
+									th:value="${campus.instcamId}" class="form-control"
+									th:text="${campus.instcamName}"
+									th:selected="${campuscapacity.institutioncampus=campus}"></option>
 							</select> <span th:if="${#fields.hasErrors('institutioncampus')}"
 								th:errors="*{institutioncampus}" class="text-danger"></span>
 						</div>
-
 					</div>
 					<div class="row">
 						<div class="col-md-4 mt-3">

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -19,29 +20,25 @@ public class HatCapacitydetailDAOImpl implements HatCapacitydetailDAO{
 	private EntityManager entityManager;
 
 	@Override
+	@Transactional
 	public void save(HatCapacitydetail hatCapacitydetail) {
-		
 		entityManager.persist(hatCapacitydetail);
-		
 	}
 
 	@Override
+	@Transactional
 	public void update(HatCapacitydetail hatCapacitydetail) {
-		
 		entityManager.merge(hatCapacitydetail);
-		
 	}
 
 	@Override
 	public void delete(HatCapacitydetail hatCapacitydetail) {
-		
 		entityManager.remove(hatCapacitydetail);
-		
 	}
 
 	@Override
+	@Transactional
 	public HatCapacitydetail findById(long id) {
-
 		return entityManager.find(HatCapacitydetail.class, id);
 	}
 

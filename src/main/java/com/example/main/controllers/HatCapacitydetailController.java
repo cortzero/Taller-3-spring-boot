@@ -42,6 +42,7 @@ public class HatCapacitydetailController {
 	@GetMapping("/campusCapacities/add")
 	public String showSaveCampusCapacity(Model model) {
 		model.addAttribute("campuscapacity", new HatCapacitydetail());
+		model.addAttribute("institutioncampuses", instCampusDelegate.getAllCampus());
 		return "campusCapacities/add_campusCapacity_1";
 	}
 

@@ -35,11 +35,8 @@ public class HatParameterDelegateImpl implements HatParameterDelegate {
 	@Autowired
 	public HatParameterDelegateImpl(RestTemplateBuilder builder) {
 		this.restTemplate = builder.build();
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		converter.setObjectMapper(mapper);
 		converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		messageConverters.add(converter);
 		this.restTemplate.setMessageConverters(messageConverters);
@@ -60,7 +57,7 @@ public class HatParameterDelegateImpl implements HatParameterDelegate {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity<List<HatParameter>> entity = new HttpEntity<>(headers);
-		HttpEntity<List<HatParameter>> response = restTemplate.exchange(URL, HttpMethod.GET, entity,
+		ResponseEntity<List<HatParameter>> response = restTemplate.exchange(URL, HttpMethod.GET, entity,
 				new ParameterizedTypeReference<List<HatParameter>>() {
 				});
 		return response.getBody();
@@ -86,7 +83,7 @@ public class HatParameterDelegateImpl implements HatParameterDelegate {
 	public void deleteHatParameter(long id) {
 		Map<String, Long> params = new HashMap<String, Long>();
 		params.put("id", id);
-		restTemplate.put(URL + id, params);
+		restTemplate.delete(URL + id, params);
 	}
 
 }

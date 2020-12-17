@@ -28,7 +28,7 @@ public class HatCapacityRestServiceImpl implements HatCapacityRestService{
 
 	@Override
 	@PostMapping("/create")
-	public ResponseEntity<String> createCapacity(@RequestBody HatCapacitydetail capacity) {
+	public @ResponseBody ResponseEntity<String> createCapacity(@RequestBody HatCapacitydetail capacity) {
 		capacityService.save(capacity);
 		if(capacityService.contains(capacity)) {
 			return new ResponseEntity<String>(HttpStatus.CREATED);
@@ -38,14 +38,14 @@ public class HatCapacityRestServiceImpl implements HatCapacityRestService{
 
 	@Override
 	@PutMapping("/{id}")
-	public ResponseEntity<String> updateCapacity(@PathVariable("id") long id, @RequestBody HatCapacitydetail capacity) {
+	public @ResponseBody ResponseEntity<String> updateCapacity(@PathVariable("id") long id, @RequestBody HatCapacitydetail capacity) {
 		capacityService.update(capacity);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	@Override
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteCapacity(@PathVariable("id") long id) {
+	public @ResponseBody ResponseEntity<String> deleteCapacity(@PathVariable("id") long id) {
 		capacityService.delete(capacityService.findById(id));
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}

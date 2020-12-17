@@ -35,7 +35,7 @@ public class HatParameterController {
 
 	}
 
-	@GetMapping("/hatParameters/")
+	@GetMapping("/hatParameters")
 	public String indexHatParameters(Model model) {
 		model.addAttribute("hatparameters", hatParameterDelegate.getAllHatParameters());
 		return "hatParameters/index";
