@@ -1,5 +1,6 @@
 package com.example.main.delegate.interfaces;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,6 @@ public interface PhysicalSpaceDelegate {
 	
 	public List<Physicalspace> findByExtId(String extId);
 	
-	public List<Physicalspace> findPhysicalSpacesWithADateRange(int sDay, int sMonth, int sYear, int eDay, int eMonth, int eYear);
+	public List<Physicalspace> findPhysicalSpacesWithADateRange(Date startDate, Date endDate);
 
 }

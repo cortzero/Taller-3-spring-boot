@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.validation.groups.Default;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -141,13 +142,12 @@ public class PhysicalSpaceController {
 		return "physicalSpaces/show_info";
 	}
 
-	@GetMapping("/physicalSpaces/startDate={sDay}?{sMonth}?{sYear}&endDate={eDay}?{eMonth}?{eYear}")
-	public String findPhysicalSpacesWithADateRange(Model model, @PathVariable("sDay") int sDay,
-			@PathVariable("sMonth") int sMonth, @PathVariable("sYear") int sYear, @PathVariable("eDay") int eDay,
-			@PathVariable("eMonth") int eMonth, @PathVariable("eYear") int eYear) {
+	@GetMapping("/physicalSpaces/{startDate}&{endDate}")
+	public String findPhysicalSpacesWithADateRange(Model model,
+			@RequestParam("startDate") @DateTimeFormat(pattern = "MM-dd-yyyy") Date startDate,
+			@RequestParam("endDate") @DateTimeFormat(pattern = "MM-dd-yyyy") Date endDate) {
 
-		List<Physicalspace> ps = physicalSpaceDelegate.findPhysicalSpacesWithADateRange(sDay, sMonth, sYear, eDay,
-				eMonth, eYear);
+		List<Physicalspace> ps = physicalSpaceDelegate.findPhysicalSpacesWithADateRange(startDate, endDate);
 		model.addAttribute("physicalspaces", ps);
 
 		return "/query1";

@@ -2,6 +2,7 @@ package com.example.main.delegate.implementations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,12 +103,12 @@ public class PhysicalSpaceDelegateImpl implements PhysicalSpaceDelegate {
 	    return response.getBody();
 	}
 
-	@Override
-	public List<Physicalspace> findPhysicalSpacesWithADateRange(int sDay, int sMonth, int sYear, int eDay, int eMonth, int eYear) {
+	
+	public List<Physicalspace> findPhysicalSpacesWithADateRange(Date startDate, Date endDate) {
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 		HttpEntity <List<Physicalspace>> entity = new HttpEntity<>(headers);
-	    ResponseEntity<List<Physicalspace>> response = restTemplate.exchange(URL + "/startDate="+sDay+"?"+sMonth+"?"+sYear+"&endDate="+eDay+"?"+eMonth+"?"+eYear, HttpMethod.GET, entity, new ParameterizedTypeReference<List<Physicalspace>>() {
+	    ResponseEntity<List<Physicalspace>> response = restTemplate.exchange(URL + "{"+startDate+"}"+"&"+"{"+endDate+"}", HttpMethod.GET, entity, new ParameterizedTypeReference<List<Physicalspace>>() {
         });
 	    return response.getBody();
 	}
